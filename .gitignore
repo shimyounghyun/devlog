@@ -8,5 +8,4 @@
 out
 gen
 db_config.ini
-.DS_Store
-App/Models/
+
