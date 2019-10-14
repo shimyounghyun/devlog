@@ -4,6 +4,7 @@
 
 # IntelliJ project files
 .idea
+application/
 *.iml
 out
 gen
