@@ -32,7 +32,7 @@ abstract class Model
             $this->action();
         }
     }
-    //query
+    // query
     function query($sql = false){
         $sql && $this->sql = $sql;
         $res = $this->db->prepare($this->sql);

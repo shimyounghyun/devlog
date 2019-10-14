@@ -1,0 +1,178 @@
+<!-- lottie -->
+<script src="https://labs.nearpod.com/bodymovin/demo/markus/halloween/lottie.min.js"></script>
+<div class="regist-area">
+    <!-- 상단 로고 -->
+    <div class="header" style="background: #495057;">
+        <div class="regist-header">
+            <a class="logo" href="javascript:void(0);" onclick="location.href='/'">
+                devlog
+            </a>
+            <div class="step-info">
+                <span>/</span>
+                약관 동의
+            </div>
+            <ol class="regist-step">
+                <li>첫번째</li>
+                <li>두번째</li>
+                <li class="on">세번째</li>
+            </ol>
+        </div>
+    </div> <!-- // 상단 로고 -->
+    <form method="POST" id="regist_frm">
+        <div class="content">
+            <div class="auth-form">
+                <!-- 폼 시작 -->
+                <div class="regist-conetent">
+                    <div class="regist-item">
+                        <div class="item-info">이메일 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="email" id="email" name="email">
+                            <label class="mdl-textfield__label" for="email">이메일</label>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">아이디 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="user_id" name="user_id">
+                            <label class="mdl-textfield__label" for="user_id">아이디</label>
+                            <div class="item-chk" id="id_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="id_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="id_check">
+                            </div>
+                            <div id="loading" class="item-loading"></div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="id_box" id="id_tooltip">이미 존재하는 아이디 입니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">비밀번호 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="user_pw" name="user_pw">
+                            <label class="mdl-textfield__label" for="user_pw">비밀번호</label>
+                            <div class="item-chk" id="pw_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="pw_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="pw_check">
+                            </div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="pw_box" id="pw_tooltip">일치하지 않습니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">비밀번호 확인</div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="confirm_pw">
+                            <label class="mdl-textfield__label" for="confirm_pw">비밀번호 확인</label>
+                            <div class="item-chk" id="pw_con_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="pw_con_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="pw_con_check">
+                            </div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="pw_con_box" id="pw_con_tooltip">일치하지 않습니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">닉네임 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="user_name" name="user_name">
+                            <label class="mdl-textfield__label" for="user_name">닉네임</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-right: 1rem"> 취소 </button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="join();"> 가입 </button>
+                    </div>
+                </div>
+                <!-- //폼 시작 -->
+            </div>
+        </div><!-- // 등록 폼 -->
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        init();
+        lottie.loadAnimation({
+            container: document.getElementById('loading'), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets10.lottiefiles.com/datafiles/fPx4vaZrul2Fvg9/data.json' // the path to the animation json
+        });
+    })
+    function init(){
+        $("#id_uncheck").hide();
+        $("#id_check").hide();
+        $("#pw_uncheck").hide();
+        $("#pw_check").hide();
+        $("#pw_con_uncheck").hide();
+        $("#pw_con_check").hide();
+        offLoading();
+    }
+    // 회원 가입
+    function join(){
+        $("#confirm_pw").focus();
+        // if(validation()){
+        //
+        // }
+    }
+
+    //유효성 검사
+    function validation(){
+        if($("#confirm_pw").val().trim() == $("#user_pw").val().trim()){
+            alert('비밀번호가 일치하지 않습니다.');
+            $("#confirm_pw").focus();
+            return false;
+        }
+    }
+
+    //로딩 중
+    function onLoading(){
+        $("#loading").show();
+    }
+
+    //로딩 종료
+    function offLoading(){
+        $("#loading").hide();
+    }
+
+    function checkResult(result,type,msg){
+        offLoading();
+        switch(type){
+            case 0 : // 아이디
+                if(result){
+                    $("#id_check").show();
+                    $("#id_uncheck").hide();
+                }else{
+                    $("#id_check").hide();
+                    $("#id_uncheck").show();
+                    $("#id_tooltip").text(msg);
+                }
+                break;
+            case 1 : // 비밀번호
+                if(result){
+                    $("#pw_check").show();
+                    $("#pw_uncheck").hide();
+                }else{
+                    $("#pw_check").hide();
+                    $("#pw_uncheck").show();
+                    $("#pw_tooltip").text(msg);
+                }
+                break;
+            case 2 : // 비밀번호 확인
+                if(result){
+                    $("#pw_con_check").show();
+                    $("#pw_con_uncheck").hide();
+                }else{
+                    $("#pw_con_check").hide();
+                    $("#pw_con_uncheck").show();
+                    $("#pw_con_tooltip").text(msg);
+                }
+                break;
+        }
+    }
+</script>

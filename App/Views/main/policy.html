@@ -1,3 +1,117 @@
-<div>
-    체크아웃 1
+<div class="regist-area">
+    <!-- 상단 로고 -->
+    <div class="header" style="background: #495057;">
+        <div class="regist-header">
+            <a class="logo" href="javascript:void(0);" onclick="location.href='/'">
+                devlog
+            </a>
+            <div class="step-info">
+                <span>/</span>
+                약관 동의
+            </div>
+            <ol class="regist-step">
+                <li class="on">첫번째</li>
+                <li>두번째</li>
+                <li>세번째</li>
+            </ol>
+        </div>
+    </div> <!-- // 상단 로고 -->
+
+    <div class="content">
+        <!-- 약관 동의 폼 -->
+        <div class="policy-form">
+            <div class="policy-con-wrapper">
+                <label id ="checkall" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="policyAllCheck" style="margin-bottom: 3rem">
+                    <input type="checkbox" id="policyAllCheck" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">develog 서비스 이용 약관, 개인 정보 수집에 모두 동의합니다.</span><span class="all"> (전체동의)</span></span>
+                </label>
+            </div>
+            <div class="policy-con-wrapper">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect check" for="serviceChk">
+                    <input type="checkbox" id="serviceChk" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">서비스 이용 약관 동의</span>
+                </label>
+                <div class="box">
+                    <strong>목적</strong>
+                    <p>자유롭게 이용하기</p>
+                    <strong>힘내세요</strong>
+                    <ol>
+                        <li>힘들다.</li>
+                        <li>힘들지 않다.</li>
+                        <li>재밌다.</li>
+                        <li>재밌지 않다.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="policy-con-wrapper">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect check" for="profileChk">
+                    <input type="checkbox" id="profileChk" class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">개인정보 수집 및 이용 동의</span>
+                </label>
+                <div class="box">
+                    <strong>이메일 잘쓸게요.</strong>
+                    <p>냠냠</p>
+                    <strong>이름도 알려주세요.</strong>
+                    <ol>
+                        <li>(1) 주민번호도 알려주세요.</li>
+                        <li>(2) 카드번호도 알려주세요.</li>
+                        <li>(3) 잘쓸게요.</li>
+                        <li>(4) 감사합니다.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin-right: 1rem"> 취소 </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="next();"> 다음 </button>
+            </div>
+        </div>
+        <!-- //약관 동의 폼 -->
+    </div>
 </div>
+<script>
+    function next(){
+        if(!$("#serviceChk").is(":checked")){
+            alert("서비스 이용 약관에 동의해 주세요.");
+            $("#serviceChk").focus();
+            return;
+        }
+        if(!$("#profileChk").is(":checked")){
+            alert("개인정보 수집 및 이용에 동의해 주세요.");
+            $("#profileChk").focus();
+            return;
+        }
+        location.href="/auth";
+    }
+
+    $(document).ready(function () {
+        $("#checkall input").change(function() {
+            let listaElementos = document.querySelectorAll('.check');
+
+            for(var i=0, n=listaElementos.length; i<n; i++){
+                let element = listaElementos[i];
+
+                if($('#checkall input').is(":checked")) {
+                    element.MaterialCheckbox.check();
+                }
+                else {
+                    element.MaterialCheckbox.uncheck();
+                }
+            }
+        });
+
+        $('.check').change(function(){
+            let listaElementos = document.querySelectorAll('.check');
+
+            for(var i=0, n=listaElementos.length; i<n; i++){
+                if($('.check input:checked').length == $('.check input').length ) {
+                    document.querySelector('#checkall').MaterialCheckbox.check();
+                }else{
+                    document.querySelector('#checkall').MaterialCheckbox.uncheck();
+                }
+            }
+        });
+
+
+    });
+</script>
