@@ -1,3 +1,4 @@
+{{ include('header.html') }}
 <div class="regist-area">
     <!-- 상단 로고 -->
     <div class="header" style="background: #495057;">
@@ -39,130 +40,139 @@
     </div>
 </div>
 <script>
-    (function() {
-        // get all data in form and return object
-        function getFormData(form) {
-            let elements = form.elements;
-            let honeypot;
+        (function() {
+            // get all data in form and return object
+            function getFormData(form) {
+                let elements = form.elements;
+                let honeypot;
 
-            let fields = Object.keys(elements).filter(function(k) {
-                if (elements[k].name === "honeypot") {
-                    honeypot = elements[k].value;
+                let fields = Object.keys(elements).filter(function(k) {
+                    if (elements[k].name === "honeypot") {
+                        honeypot = elements[k].value;
+                        return false;
+                    }
+                    return true;
+                }).map(function(k) {
+                    if(elements[k].name !== undefined) {
+                        return elements[k].name;
+                        // special case for Edge's html collection
+                    }else if(elements[k].length > 0){
+                        return elements[k].item(0).name;
+                    }
+                }).filter(function(item, pos, self) {
+                    return self.indexOf(item) == pos && item;
+                });
+
+                let formData = {};
+                fields.forEach(function(name){
+                    let element = elements[name];
+
+                    // singular form elements just have one value
+                    formData[name] = element.value;
+
+                    // when our element has multiple items, get their values
+                    if (element.length) {
+                        let data = [];
+                        for (let i = 0; i < element.length; i++) {
+                            let item = element.item(i);
+                            if (item.checked || item.selected) {
+                                data.push(item.value);
+                            }
+                        }
+                        formData[name] = data.join(', ');
+                    }
+                });
+
+                // add form-specific values into the data
+                formData.formDataNameOrder = JSON.stringify(fields);
+                formData.formGoogleSheetName = form.dataset.sheet || "responses"; // default sheet name
+                formData.formGoogleSend = form.dataset.email || ""; // no email by default
+
+                return {data: formData, honeypot: honeypot};
+            }
+
+            function handleFormSubmit(event) {  // handles form submit without any jquery
+                event.preventDefault();           // we are submitting via xhr below
+                let form = event.target;
+                let formData = getFormData(form);
+                let data = formData.data;
+
+                // If a honeypot field is filled, assume it was done so by a spam bot.
+                if (formData.honeypot) {
                     return false;
                 }
-                return true;
-            }).map(function(k) {
-                if(elements[k].name !== undefined) {
-                    return elements[k].name;
-                    // special case for Edge's html collection
-                }else if(elements[k].length > 0){
-                    return elements[k].item(0).name;
-                }
-            }).filter(function(item, pos, self) {
-                return self.indexOf(item) == pos && item;
-            });
 
-            let formData = {};
-            fields.forEach(function(name){
-                let element = elements[name];
+                disableAllButtons(form);
 
-                // singular form elements just have one value
-                formData[name] = element.value;
+                setEmailSession();
+            }
 
-                // when our element has multiple items, get their values
-                if (element.length) {
-                    let data = [];
-                    for (let i = 0; i < element.length; i++) {
-                        let item = element.item(i);
-                        if (item.checked || item.selected) {
-                            data.push(item.value);
+            // 코드 : 이메일 -> 세션 등록
+            function setEmailSession(){
+                $.ajax({
+                    url : "/email"
+                    ,data : $("#gform").serialize()
+                    ,dataType : "json"
+                    ,type : "POST"
+                    ,success : function(data){
+                        if(data.result){
+                            sendEmail(data.code);
+                        }else{
+                            console.log(data);
                         }
                     }
-                    formData[name] = data.join(', ');
-                }
-            });
-
-            // add form-specific values into the data
-            formData.formDataNameOrder = JSON.stringify(fields);
-            formData.formGoogleSheetName = form.dataset.sheet || "responses"; // default sheet name
-            formData.formGoogleSend = form.dataset.email || ""; // no email by default
-
-            return {data: formData, honeypot: honeypot};
-        }
-
-        function handleFormSubmit(event) {  // handles form submit without any jquery
-            event.preventDefault();           // we are submitting via xhr below
-            let form = event.target;
-            let formData = getFormData(form);
-            let data = formData.data;
-
-            // If a honeypot field is filled, assume it was done so by a spam bot.
-            if (formData.honeypot) {
-                return false;
+                    ,error : function (a,b,c) {
+                        console.log(c);
+                    }
+                })
             }
 
-            disableAllButtons(form);
-
-            setEmailSession();
-        }
-
-        // 코드 : 이메일 -> 세션 등록
-        function setEmailSession(){
-            $.ajax({
-                url : "/email"
-                ,data : $("#gform").serialize()
-                ,dataType : "json"
-                ,type : "POST"
-                ,success : function(data){
-                    if(data.result == true){
-                        sendEmail(data.code);
+            // 이메일 전송
+            function sendEmail(code){
+                if(!code) return;
+                let form = $("#gform")[0];
+                form.code.value = code;
+                form.name.value = code;
+                form.message.value = code;
+                let formData = getFormData(form);
+                let data = formData.data;
+                let url = form.action;
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', url);
+                // xhr.withCredentials = true;
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // 성공
+                        alert("메일이 전송되었습니다. \n메일 확인 후 회원가입이 진행됩니다.");
+                    }else{
+                        console.log(xhr.responseText);
                     }
-                }
-            })
-        }
+                };
 
-        // 이메일 전송
-        function sendEmail(code){
-            if(!code) return;
-            let form = $("#gform")[0];
-            form.code.value = code;
-            form.name.value = code;
-            form.message.value = code;
-            let formData = getFormData(form);
-            let data = formData.data;
-            let url = form.action;
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', url);
-            // xhr.withCredentials = true;
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // 성공
+                // url encode form data for sending as post data
+                let encoded = Object.keys(data).map(function(k) {
+                    return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+                }).join('&');
+                xhr.send(encoded);
+            }
 
+            function loaded() {
+                // bind to the submit event of our form
+                let forms = $("#gform");
+                for (let i = 0; i < forms.length; i++) {
+                    forms[i].addEventListener("submit", handleFormSubmit, false);
                 }
             };
+            document.addEventListener("DOMContentLoaded", loaded, false);
 
-            // url encode form data for sending as post data
-            let encoded = Object.keys(data).map(function(k) {
-                return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            }).join('&');
-            xhr.send(encoded);
-        }
-
-        function loaded() {
-            // bind to the submit event of our form
-            let forms = $("#gform");
-            for (let i = 0; i < forms.length; i++) {
-                forms[i].addEventListener("submit", handleFormSubmit, false);
+            function disableAllButtons(form) {
+                let buttons = form.querySelectorAll("button");
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = true;
+                }
             }
-        };
-        document.addEventListener("DOMContentLoaded", loaded, false);
-
-        function disableAllButtons(form) {
-            let buttons = form.querySelectorAll("button");
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true;
-            }
-        }
-    })();
+        })();
 </script>
+{{ include('footer.html') }}
+

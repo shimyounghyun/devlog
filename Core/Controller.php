@@ -23,6 +23,8 @@ abstract class Controller
      */
     public function __construct($route_params)
     {
+        // 세션 사용
+        session_start();
         $this->route_params = $route_params;
 
         $params = explode("&", $_SERVER['QUERY_STRING'],2);

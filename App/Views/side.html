@@ -1,0 +1,22 @@
+<div class="left-side-menu">
+    <a onclick="location.href='/recent'" href="javascript:void(0);" class="logo">
+        <img src="{{constant('_LOGO')}}" width="90px" height="30px;">
+    </a>
+    <div class="search-box">
+        <div class="rect">
+            <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m15.9 23.4c4.1 0 7.5-3.4 7.5-7.5s-3.4-7.5-7.5-7.5-7.5 3.3-7.5 7.5 3.3 7.5 7.5 7.5z m10 0l8.2 8.2-2.5 2.5-8.2-8.2v-1.4l-0.5-0.4c-1.9 1.6-4.4 2.5-7 2.5-6.1 0-10.9-4.7-10.9-10.7s4.8-10.9 10.9-10.9 10.7 4.8 10.7 10.9c0 2.6-0.9 5.1-2.5 7l0.4 0.5h1.4z"></path></g></svg>
+            <input id="search_text" type="text">
+        </div>
+    </div>
+    <ul class="menu">
+        <li class="menu-item on"><a>최신 포스트</a></li>
+        <li class="menu-item"><a>태그 목록</a></li>
+    </ul>
+</div>
+<script>
+    $(document).ready(function(){
+        // 검색 포커스 이벤트
+        $("#search_text").focus(()=>{$(".search-box").addClass("focus");});
+        $("#search_text").blur(()=>{$(".search-box").removeClass("focus");});
+    })
+</script>

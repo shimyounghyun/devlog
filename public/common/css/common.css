@@ -296,3 +296,201 @@ a { text-decoration:none ; color:inherit;}
     width: 50px;
     height: 50px;
 }
+
+.left-side-menu{
+    display: flex;
+    position: fixed;
+    width: 18rem;
+    background: white;
+    flex-direction: column;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: -6px 0px 12px 0px #d6dee4;
+}
+
+.left-side-menu .logo{
+    padding: 0 2rem;
+    margin-top: 1.75rem;
+    margin-bottom: 1.75rem;
+    display: block;
+    position: relative;
+}
+
+.search-box{
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+}
+
+.search-box .rect{
+    border-radius: 4px;
+    display: flex;
+    padding-left: .5rem;
+    background: #f1f3f5;
+    border: 1px solid #dee2e6;
+    align-items: center;
+    color: #343a40;
+}
+
+.search-box.focus .rect{
+    border: 1px solid #f54;
+    color: #f54;
+    background: #fff;
+}
+
+.search-box .rect input{
+    background: none;
+    border: none;
+    outline: none;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    font-size: .875rem;
+    flex: 1 1;
+    margin-left: .5rem;
+    color: inherit;
+}
+
+.left-side-menu .menu{
+    list-style: none;
+    padding-left: 0;
+}
+
+.left-side-menu a{
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1.125rem;
+    padding-left: 1.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.left-side-menu .menu .menu-item.on{
+    color: #f54;
+    border-right: 2px solid #ff8970;
+}
+
+.left-side-menu .menu .menu-item{
+    cursor: pointer;
+    color: #495057;
+}
+
+.main-top{
+    padding: 1.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.main-top .right{
+    display: flex;
+    align-items: center;
+}
+
+.button.outline{
+    border-radius: 4px;
+    border: 1px solid #495057;
+    color: #495057;
+    background: #fff;
+    font-weight: 400;
+    padding: .5rem .875rem;
+    line-height: .875rem;
+    font-size: .875rem;
+    cursor: pointer;
+}
+
+.main-top .spacer{
+    flex: 1 1;
+}
+
+.user-button img{
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 3px 6px rgba(0,0,0,.016), 0 3px 6px rgba(0,0,0,.023);
+    cursor: pointer;
+}
+
+.user-menu-wrapper{
+    position: relative;
+    z-index: 10;
+}
+
+.user-menu-wrapper .menu-position{
+    position: absolute;
+    right: 0;
+    top: 2.5rem;
+
+    border-radius: 3px;
+    background-color: #fff;
+    box-sizing: content-box;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.3);
+    text-align: left;
+}
+
+.menu-position .menu-profile{
+    overflow: hidden;
+    position: relative;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.user-menu{
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    z-index: 1;
+    position: relative;
+    font-size: .875rem;
+    min-width: 1rem;
+}
+
+.user-menu a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #495057;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.menu-profile .menu-email{
+    display: block;
+    overflow: hidden;
+    width: 170px;
+    padding: 2px 0 0;
+    text-overflow: ellipsis;
+    color: #909090;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.menu-direction{
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    width: 16px;
+    height: 9px;
+    background-image: url('https://t1.daumcdn.net/tistory_admin/static/top/pcrtn/layer_edge.png');
+    background-size: 16px 9px;
+}
+
+.user-menu .menu-post{
+    overflow: hidden;
+    position: relative;
+    padding: 1rem;
+    line-height: 1.5;
+    border-top: 1px solid #f0f0f0;
+}
+
+.user-menu-wrapper.open{
+    display: block;
+}
+
+.user-menu-wrapper.close{
+    display: none;
+}

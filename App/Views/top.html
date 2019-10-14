@@ -1,0 +1,60 @@
+<div class="main-top">
+    <div class="spacer"></div>
+    <div class="right">
+
+        {% if session.user is empty %} <!-- 비로그인 -->
+        <button class="button outline">로그인</button>
+        {% else %} <!-- 로그인 -->
+        <div class="user-button">
+            <div class="thumbnail">
+                <!-- 유저 썸네일이 있는지 확인 -->
+                {% if session.user.thumbnail is empty %}
+                    {% set thumb = constant('_BASIC_THUMB')%}
+                {% else%}
+                    {% set thumb = session.user.thumbnail %}
+                {% endif%}
+                <img src="{{thumb}}" style="height:48px; width:48px;">
+            </div>
+        </div>
+        <div class="user-menu-wrapper close">
+            <div class="menu-position">
+                <div class="menu-direction"></div>
+                <div class="user-menu">
+                    <div class="menu-profile">
+                        <a>닉네임</a>
+                        <span class="menu-email">lhlrol1004@naver.com</span>
+                    </div>
+                    <div class="menu-post">
+                        <a>새 글 작성</a>
+                        <a>임시 글 보기</a>
+                    </div>
+                    <div class="menu-post">
+                        <a>로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    // 메뉴 클릭 이벤트
+    $(document).on('click',(e)=>{
+
+        //썸네일 클릭시 메뉴창이 보임
+        if($(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('close');
+            $(".user-menu-wrapper").addClass('open');
+        }
+
+        //메뉴 외에 다른곳을 눌렀을때 창이 닫힘
+        if($(".user-menu-wrapper").hasClass('open') &&
+            !$(".user-menu-wrapper").has(e.target).length &&
+            !$(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('open');
+            $(".user-menu-wrapper").addClass('close');
+        }
+    });
+</script>
+
+
