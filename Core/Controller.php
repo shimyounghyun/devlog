@@ -12,6 +12,8 @@ abstract class Controller
      * @var array
      */
     protected $route_params = [];
+
+    protected $get_params = [];
     /**
      * Class constructor
      *
@@ -21,7 +23,18 @@ abstract class Controller
      */
     public function __construct($route_params)
     {
+        // 세션 사용
+        session_start();
         $this->route_params = $route_params;
+
+        $params = explode("&", $_SERVER['QUERY_STRING'],2);
+        foreach($params as $key=> $data){
+            if(strpos($data, "=") !== false){
+                $k = explode('=',$data,2)[0];
+                $v = explode('=',$data,2)[1];
+                $this->get_params[$k] = $v;
+            }
+        }
     }
     /**
      * Magic method called when a non-existent or inaccessible method is

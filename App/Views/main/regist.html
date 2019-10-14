@@ -1,0 +1,284 @@
+{{ include('header.html') }}
+<!-- lottie -->
+<script src="https://labs.nearpod.com/bodymovin/demo/markus/halloween/lottie.min.js"></script>
+<div class="regist-area">
+    <!-- 상단 로고 -->
+    <div class="header" style="background: #495057;">
+        <div class="regist-header">
+            <a class="logo" href="javascript:void(0);" onclick="location.href='/'">
+                devlog
+            </a>
+            <div class="step-info">
+                <span>/</span>
+                약관 동의
+            </div>
+            <ol class="regist-step">
+                <li>첫번째</li>
+                <li>두번째</li>
+                <li class="on">세번째</li>
+            </ol>
+        </div>
+    </div> <!-- // 상단 로고 -->
+    <form method="POST" id="regist_frm">
+        <div class="content">
+            <div class="auth-form">
+                <!-- 폼 시작 -->
+                <div class="regist-conetent">
+                    <div class="regist-item">
+                        <div class="item-info">이메일 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="email" id="email" name="email" value="{{code}}" disabled>
+                            <label class="mdl-textfield__label" for="email">이메일</label>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">아이디 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="user_id" name="user_id">
+                            <label class="mdl-textfield__label" for="user_id">아이디</label>
+                            <div class="item-chk" id="id_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="id_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="id_check">
+                            </div>
+                            <div id="loading" class="item-loading"></div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="id_box" id="id_tooltip">이미 존재하는 아이디 입니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">비밀번호 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="password" id="user_pw" name="user_pw">
+                            <label class="mdl-textfield__label" for="user_pw">비밀번호</label>
+                            <div class="item-chk" id="pw_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="pw_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="pw_check">
+                            </div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="pw_box" id="pw_tooltip">일치하지 않습니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">비밀번호 확인</div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="password" id="confirm_pw">
+                            <label class="mdl-textfield__label" for="confirm_pw">비밀번호 확인</label>
+                            <div class="item-chk" id="pw_con_box">
+                                <img src="https://user-images.githubusercontent.com/26181611/66714702-def65700-edf4-11e9-8ad0-c1aad3a8924c.png" width="15px" height="15px" id="pw_con_uncheck">
+                            </div>
+                            <div class="item-chk">
+                                <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="pw_con_check">
+                            </div>
+                            <div class="mdl-tooltip mdl-tooltip--large" for="pw_con_box" id="pw_con_tooltip">일치하지 않습니다.</div>
+                        </div>
+                    </div>
+                    <div class="regist-item">
+                        <div class="item-info">닉네임 <span>*</span></div>
+                        <div class="mdl-textfield mdl-js-textfield regist-item">
+                            <input class="mdl-textfield__input" type="text" id="user_name" name="user_name">
+                            <label class="mdl-textfield__label" for="user_name">닉네임</label>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--raised" style="margin-right: 1rem"> 취소 </button>
+                        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="join();"> 가입 </button>
+                    </div>
+                </div>
+                <!-- //폼 시작 -->
+            </div>
+        </div><!-- // 등록 폼 -->
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        // 뷰 초기화
+        init();
+
+        // 아이디 중복 확인 키 이벤트
+        $("#user_id").on('keyup',function(){
+            let id = $("#user_id").val();
+            if(!id.trim() || id.trim().length < 3){
+                checkResult(false,0,"최소 3글자 이상");
+            }else{
+                onLoading();
+                $.ajax({
+                    url : "/idCheck"
+                    ,data : {id : id}
+                    ,type : "POST"
+                    ,dataType : "json"
+                    ,success : function(data){
+                        if(data.result){
+                            checkResult(data.data,0,data.msg);
+                        }else{
+                            alert(data.msg);
+                        }
+                    }
+                    ,error : function(r, s, e){
+                        console.log(e);
+                        offLoading();
+                    }
+                });
+            }
+        });
+
+        // 로딩 애니메이션 초기화
+        lottie.loadAnimation({
+            container: document.getElementById('loading'), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets10.lottiefiles.com/datafiles/fPx4vaZrul2Fvg9/data.json' // the path to the animation json
+        });
+    })
+
+    // 뷰 초기화
+    function init(){
+        $("#id_uncheck").hide();
+        $("#id_check").hide();
+        $("#pw_uncheck").hide();
+        $("#pw_check").hide();
+        $("#pw_con_uncheck").hide();
+        $("#pw_con_check").hide();
+        offLoading();
+    }
+    // 회원 가입
+    function join(){
+        if(validation()){
+            // 등록
+            $.ajax({
+                url : "/join"
+                ,data : $("#regist_frm").serialize()
+                ,type : "POST"
+                ,dataType : "json"
+                ,success : function(data){
+                    if(data.result){ //성공
+
+                    }else{ //오류 발생
+                        alert(data.msg);
+                    }
+                }
+                ,error : function(r, s, e){
+                    console.log(e);
+                }
+            });
+        }
+    }
+
+    //유효성 검사
+    function validation(){
+        // 이메일 체크
+        if(!$("#email").val().trim()){
+            alert("이메일을 입력해주세요.");
+            $("#email").focus();
+            return false;
+        }
+
+        // 이메일주소 형식 체크 정규식
+        let regExpEm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        if(!regExpEm.test($("#email").val().trim())){
+            alert("이메일을 형식이 아닙니다.");
+            $("#email").focus();
+            return false;
+        }
+
+        // 아이디 체크
+        if(!$("#user_id").val().trim()){
+            alert("아이디를 입력해주세요.");
+            $("#user_id").focus();
+            return false;
+        }
+
+        // 아이디 길이 체크
+        if(!$("#user_id").val().trim().length >= 3){
+            alert("아이디는 최소 3글자이상 입력해야됩니다.");
+            $("#user_id").focus();
+            return false;
+        }
+
+        // 비밀번호 체크
+        let regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+        if(!$("#user_pw").val()){
+            alert("비밀번호를 입력해주세요.");
+            $("#user_pw").focus();
+            return false;
+        }
+
+        // 비밀번호 양식 체크
+        // 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
+        if(!regExpPw.test($("#user_pw").val())){
+            alert("숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력");
+            $("#user_pw").focus();
+            return false;
+        }
+
+        //비밀번호 확인 체크
+        if($("#confirm_pw").val() != $("#user_pw").val()){
+            alert('비밀번호가 일치하지 않습니다.');
+            $("#confirm_pw").focus();
+            return false;
+        }
+
+        // 닉네임 체크
+        if(!$("#user_name").val()){
+            alert("닉네임을 입력해주세요.");
+            $("#user_name").focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    //로딩 중
+    function onLoading(){
+        $("#id_uncheck").hide();
+        $("#id_check").hide();
+        $("#loading").show();
+    }
+
+    //로딩 종료
+    function offLoading(){
+        $("#loading").hide();
+    }
+
+    function checkResult(result,type,msg){
+        offLoading();
+        switch(type){
+            case 0 : // 아이디
+                if(result){
+                    $("#id_check").show();
+                    $("#id_uncheck").hide();
+                }else{
+                    $("#id_check").hide();
+                    $("#id_uncheck").show();
+                    $("#id_tooltip").text(msg);
+                }
+                break;
+            case 1 : // 비밀번호
+                if(result){
+                    $("#pw_check").show();
+                    $("#pw_uncheck").hide();
+                }else{
+                    $("#pw_check").hide();
+                    $("#pw_uncheck").show();
+                    $("#pw_tooltip").text(msg);
+                }
+                break;
+            case 2 : // 비밀번호 확인
+                if(result){
+                    $("#pw_con_check").show();
+                    $("#pw_con_uncheck").hide();
+                }else{
+                    $("#pw_con_check").hide();
+                    $("#pw_con_uncheck").show();
+                    $("#pw_con_tooltip").text(msg);
+                }
+                break;
+        }
+    }
+</script>
+{{ include('footer.html') }}

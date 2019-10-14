@@ -1,38 +1,32 @@
 <?php
 namespace Core;
 use PDO;
-use App\Config;
+//use App\Config;
 /**
  * Base model
  *
  * PHP version 7.0
  */
-abstract class Model
+class Model
 {
     //변수
     var $db;
     var $column;
     var $table;
-    var $param;
     var $action;
     var $sql;
 
     //생성자
-    function __construct($param){
+    function __construct(){
         $dbConfig = parse_ini_file("db_config.ini");
         $this->column = NULL;
-        $this->param = $param;
         $this->db = new PDO(
             "mysql:host=127.0.0.1;dbname=".$dbConfig["db"].";"."charset=utf8"
             ,$dbConfig["username"]
             ,$dbConfig["password"]);
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-        if(isset($_POST['action'])){
-            $this->action = $_POST['action'];
-            $this->action();
-        }
     }
-    //query
+    // query
     function query($sql = false){
         $sql && $this->sql = $sql;
         $res = $this->db->prepare($this->sql);

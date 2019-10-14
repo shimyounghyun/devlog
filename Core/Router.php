@@ -17,6 +17,7 @@ class Router
      * @var array
      */
     protected $params = [];
+
     /**
      * Add a route to the routing table
      *
