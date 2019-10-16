@@ -13,6 +13,16 @@
         }
 
         /**
+         * 이메일 중복 확인
+         * @param $email
+         * @return bool
+         */
+        function hasEmail($email){
+            $this->sql = "SELECT COUNT(*) AS COUNT FROM USER WHERE USER_EMAIL ='{$email}' AND USER_DELETE = FALSE";
+            return (int)$this->fetch()->COUNT > 0 ? false : true;
+        }
+
+        /**
          * 신규 회원을 등록한다.
          * @param $user
          */
@@ -27,9 +37,28 @@
                             '{$form["user_id"]}'
                             ,'{$form["user_name"]}'
                             ,'{$form["email"]}'
-                            ,SHA2('{$form["user_pw"]}',256)
+                            ,PASSWORD('{$form["user_pw"]}')
                         )";
             $this->query();
+        }
+
+        /**
+         * 회원 조회를 한다.
+         * @param $form
+         */
+        function selectUser($form){
+            $this->sql =
+                "SELECT
+                        USER_ID
+                        ,USER_NAME
+                        ,USER_EMAIL
+                 FROM
+                        USER
+                 WHERE
+                        USER_ID ='{$form['user_id']}'
+                        AND USER_PW = PASSWORD('{$form['user_pw']}')
+                        AND USER_DELETE = FALSE";
+            return $this->fetch();
         }
     }
 ?>

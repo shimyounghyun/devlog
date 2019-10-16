@@ -1,0 +1,495 @@
+.SubmitBox {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background: #495057;
+    width: 20rem;
+    z-index: 10;
+    color: white;
+}
+@-webkit-keyframes submitBoxAppear {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-25%);
+        transform: translateY(-25%);
+    }
+    100% {
+        opacity: 1;
+        trasnform: translateY(0px);
+    }
+}
+@keyframes submitBoxAppear {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-25%);
+        transform: translateY(-25%);
+    }
+    100% {
+        opacity: 1;
+        trasnform: translateY(0px);
+    }
+}
+@-webkit-keyframes submitBoxDisappear {
+    0% {
+        opacity: 1;
+        trasnform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(-25%);
+        transform: translateY(-25%);
+    }
+}
+@keyframes submitBoxDisappear {
+    0% {
+        opacity: 1;
+        trasnform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(-25%);
+        transform: translateY(-25%);
+    }
+}
+@media (max-width: 375px) {
+    .SubmitBox {
+        width: calc(100vw - 1rem);
+    }
+}
+.SubmitBox .wrapper {
+    background: #495057;
+    padding: 1.5rem;
+}
+.SubmitBox .wrapper .title {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.SubmitBox .wrapper .title .text {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.SubmitBox .wrapper .title .view {
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: #fd7e14;
+    font-weight: 600;
+}
+.SubmitBox .wrapper .title .view:hover {
+    cursor: pointer;
+    color: #ff922b;
+}
+.SubmitBox .wrapper .sections {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.SubmitBox .wrapper .sections section + section {
+    margin-top: 1rem;
+}
+.SubmitBox .wrapper .sections .section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #ced4da;
+}
+.SubmitBox .wrapper .sections .section-title.category {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.SubmitBox .wrapper .sections .section-title.category .edit {
+    line-height: 0.8rem;
+    margin-left: auto;
+    padding: 0.25rem;
+    border: 1px solid #f8f9fa;
+    border-radius: 2px;
+    color: white;
+    cursor: pointer;
+}
+.SubmitBox .wrapper .sections .section-title.category .edit div {
+    margin-top: 0.1rem;
+    margin-left: 0.25rem;
+}
+.SubmitBox .wrapper .sections .section-title.category .edit:hover {
+    background: white;
+    color: #212529;
+}
+.SubmitBox .wrapper .footer {
+    padding-top: 1rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: -1.5rem;
+    padding: 1.5rem;
+    margin-top: 0rem;
+    background: #343a40;
+}
+.SubmitBox .wrapper .footer .buttons {
+    display: -ms-flexbox;
+    display: flex;
+}
+.SubmitBox .wrapper .footer .buttons button {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.SubmitBox .wrapper .footer .buttons button.gray {
+    background: #65707b;
+}
+.SubmitBox .wrapper .footer .buttons button.gray:hover {
+    background: #707d89;
+}
+.SubmitBox .wrapper .footer .buttons button.gray:active {
+    background: #5a636d;
+}
+.SubmitBox .wrapper .footer .buttons button.purple {
+    background: #845ef7;
+}
+.SubmitBox .wrapper .footer .buttons button.purple:hover {
+    background: #9776f8;
+}
+.SubmitBox .wrapper .footer .buttons button.purple:active {
+    background: #845ef7;
+}
+.SubmitBox .wrapper .footer .buttons button.blue {
+    background: #339af0;
+}
+.SubmitBox .wrapper .footer .buttons button.blue:hover {
+    background: #4ba6f2;
+}
+.SubmitBox .wrapper .footer .buttons button.blue:active {
+    background: #339af0;
+}
+.SubmitBox .wrapper .footer .buttons button + button {
+    margin-left: 1rem;
+}
+.SubmitBox .wrapper .footer .between {
+    margin-top: 1rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.SubmitBox .wrapper .footer .open-options {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #f76707;
+    display: block;
+    margin-right: 0.125rem;
+    font-weight: 600;
+}
+.SubmitBox .wrapper .footer .open-options a:hover {
+    cursor: pointer;
+    color: #fd7e14;
+}
+.SubmitBox.appear {
+    -webkit-animation: submitBoxAppear 0.15s ease-in-out;
+    animation: submitBoxAppear 0.15s ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    display: block;
+}
+.SubmitBox.disappear {
+    -webkit-animation: submitBoxDisappear 0.15s ease-in-out;
+    animation: submitBoxDisappear 0.15s ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    display: none;
+}
+
+.InputTags .input-button {
+    display: -ms-flexbox;
+    display: flex;
+}
+.InputTags .input-button input {
+    font-size: 1rem;
+    padding: 0.5rem;
+    -ms-flex: 7 1;
+    flex: 7 1;
+    border: none;
+    outline: none;
+}
+.InputTags .input-button .button {
+    -ms-flex: 2 1;
+    flex: 2 1;
+    background: #65707b;
+    color: white;
+    font-weight: 600;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    font-size: 0.9rem;
+    -webkit-transition: 0.05s all ease-in;
+    -o-transition: 0.05s all ease-in;
+    transition: 0.05s all ease-in;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.InputTags .input-button .button:hover {
+    background: #868e96;
+}
+.InputTags .input-button .button:active {
+    background: #555b61;
+}
+.InputTags .tags {
+    margin-top: 0.5rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    max-height: 5.5rem;
+    overflow-y: auto;
+    position: relative;
+}
+.InputTags .tags .tag {
+    margin: 0.25rem;
+    padding: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0rem;
+    font-size: 0.85rem;
+    color: #212529;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    background: #e9ecef;
+    font-weight: 500;
+    word-break: break-all;
+    border-radius: 6px;
+}
+.InputTags .tags .tag .remove {
+    font-size: 0.9rem;
+    color: #868e96;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+.InputTags .tags .tag .remove:hover {
+    cursor: pointer;
+    color: #c92a2a;
+}
+
+.WriteConfigureThumbnail {
+    position: relative;
+}
+.WriteConfigureThumbnail .remove-wrapper {
+    margin-top: -0.75rem;
+    text-align: right;
+    padding-right: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+.WriteConfigureThumbnail .remove-wrapper .remove {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #ff6b6b;
+    cursor: pointer;
+}
+.WriteConfigureThumbnail .remove-wrapper .remove:hover {
+    color: #ff8787;
+}
+.WriteConfigureThumbnail .white-button {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    color: #343a40;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.WriteConfigureThumbnail .white-button.fullwidth {
+    width: 100%;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.WriteConfigureThumbnail .white-button:hover {
+    background: #f1f3f5;
+}
+.WriteConfigureThumbnail .white-button svg {
+    font-size: 1.25rem;
+}
+.WriteConfigureThumbnail .white-button .text {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+}
+.WriteConfigureThumbnail .thumbnail-area {
+    width: 100%;
+    padding-top: 52.63%;
+    position: relative;
+}
+.WriteConfigureThumbnail .thumbnail-area .full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.WriteConfigureThumbnail .thumbnail-area img {
+    -o-object-fit: cover;
+    object-fit: cover;
+    display: block;
+}
+.WriteConfigureThumbnail .thumbnail-area .overlay {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-right: 0.875rem;
+    padding-bottom: 0.875rem;
+}
+
+.WriteSeriesConfigure .box {
+    width: 100%;
+    background: white;
+    color: #212529;
+}
+.WriteSeriesConfigure .edit {
+    -ms-flex-align: center;
+    align-items: center;
+    height: 2.5rem;
+    display: -ms-flexbox;
+    display: flex;
+}
+.WriteSeriesConfigure .edit .name {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+.WriteSeriesConfigure .edit .separator {
+    height: 1.25rem;
+    width: 1px;
+    background: #ced4da;
+}
+.WriteSeriesConfigure .edit .change {
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    -ms-flex-align: center;
+    align-items: center;
+    min-width: 0;
+    font-size: 0.875rem;
+    color: #ff922b;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    cursor: pointer;
+}
+.WriteSeriesConfigure .edit .change:hover {
+    background: #f8f9fa;
+}
+.WriteSeriesConfigure .create {
+    border-radius: 4px;
+    height: 3.375rem;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+}
+.WriteSeriesConfigure .create svg {
+    font-size: 1.5rem;
+}
+.WriteSeriesConfigure .create .text {
+    font-size: 1.125rem;
+    font-weight: 800;
+    margin-left: 0.75rem;
+}
+.WriteSeriesConfigure .create:hover {
+    background: #f8f9fa;
+}
+
+.WriteVisibilitySelect {
+    background: #f8f9fa;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 0.875rem;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+.WriteVisibilitySelect .item {
+    cursor: pointer;
+    color: #adb5bd;
+    font-weight: 600;
+    -webkit-transition: 0.125s color ease-in;
+    -o-transition: 0.125s color ease-in;
+    transition: 0.125s color ease-in;
+    padding: 0.25rem;
+    width: 90px;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.WriteVisibilitySelect .item.active {
+    color: white;
+}
+.WriteVisibilitySelect .item .item-content {
+    z-index: 2;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+}
+.WriteVisibilitySelect .item:hover {
+    background: white;
+}
+.WriteVisibilitySelect .item svg {
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+}
+.WriteVisibilitySelect .active-slider {
+    z-index: 1;
+    background: #9775fa;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 90px;
+    -webkit-transition: 0.125s -webkit-transform ease-in;
+    transition: 0.125s -webkit-transform ease-in;
+    -o-transition: 0.125s transform ease-in;
+    transition: 0.125s transform ease-in;
+    transition: 0.125s transform ease-in, 0.125s -webkit-transform ease-in;
+}
+.WriteVisibilitySelect .active-slider.right {
+    -webkit-transform: translate(90px);
+    -ms-transform: translate(90px);
+    transform: translate(90px);
+}
+
+
+

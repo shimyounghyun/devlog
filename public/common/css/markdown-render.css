@@ -1,0 +1,776 @@
+.MarkdownRender {
+    text-align: start;
+    font-size: 1.125rem;
+    word-break: break-word;
+    word-wrap: break-word;
+    font-family: 'Noto Serif KR', sans-serif;
+    color: #343a40;
+}
+.MarkdownRender a {
+    color: #845ef7;
+}
+.MarkdownRender a:hover {
+    text-decoration: underline;
+    color: #9775fa;
+}
+.MarkdownRender p {
+    line-height: 1.75;
+    font-weight: 400;
+    color: #495057;
+}
+.MarkdownRender strong, .MarkdownRender b {
+    font-weight: 600;
+}
+.MarkdownRender p + p {
+    margin-top: 1.5em;
+}
+.MarkdownRender h1, .MarkdownRender h2, .MarkdownRender h3, .MarkdownRender h4, .MarkdownRender h5, .MarkdownRender h6 {
+    color: #212529;
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+.MarkdownRender h1 code, .MarkdownRender h2 code, .MarkdownRender h3 code, .MarkdownRender h4 code, .MarkdownRender h5 code, .MarkdownRender h6 code {
+    font-weight: 600;
+}
+.MarkdownRender.atom-one {
+    /**
+     * prism.js default theme for JavaScript, CSS and HTML
+     * Based on dabblet (http://dabblet.com)
+     * @author Lea Verou
+     */
+}
+.MarkdownRender.atom-one code[class*="lang-"], .MarkdownRender.atom-one pre[class*="lang-"] {
+    color: #abb2bf;
+    background: none;
+}
+.MarkdownRender.atom-one pre[class*="lang-"]::-moz-selection, .MarkdownRender.atom-one pre[class*="lang-"] ::-moz-selection, .MarkdownRender.atom-one code[class*="lang-"]::-moz-selection, .MarkdownRender.atom-one code[class*="lang-"] ::-moz-selection {
+    text-shadow: none;
+    background: #383e49;
+}
+.MarkdownRender.atom-one pre[class*="lang-"]::selection, .MarkdownRender.atom-one pre[class*="lang-"] ::selection, .MarkdownRender.atom-one code[class*="lang-"]::selection, .MarkdownRender.atom-one code[class*="lang-"] ::selection {
+    text-shadow: none;
+    background: #9aa2b1;
+}
+.MarkdownRender.atom-one :not(pre) > code[class*="lang-"], .MarkdownRender.atom-one pre[class*="lang-"] {
+    background: #282c34;
+}
+.MarkdownRender.atom-one pre {
+    color: #abb2bf;
+    background: #282c34;
+}
+.MarkdownRender.atom-one .token.comment, .MarkdownRender.atom-one .token.prolog, .MarkdownRender.atom-one .token.doctype, .MarkdownRender.atom-one .token.cdata {
+    color: #5c6370;
+}
+.MarkdownRender.atom-one .token.punctuation {
+    color: #abb2bf;
+}
+.MarkdownRender.atom-one .token.selector, .MarkdownRender.atom-one .token.tag {
+    color: #e06c75;
+}
+.MarkdownRender.atom-one .token.property, .MarkdownRender.atom-one .token.boolean, .MarkdownRender.atom-one .token.number, .MarkdownRender.atom-one .token.constant, .MarkdownRender.atom-one .token.symbol, .MarkdownRender.atom-one .token.attr-name, .MarkdownRender.atom-one .token.deleted {
+    color: #d19a66;
+}
+.MarkdownRender.atom-one .token.string, .MarkdownRender.atom-one .token.char, .MarkdownRender.atom-one .token.attr-value, .MarkdownRender.atom-one .token.builtin, .MarkdownRender.atom-one .token.inserted {
+    color: #98c379;
+}
+.MarkdownRender.atom-one .token.operator, .MarkdownRender.atom-one .token.entity, .MarkdownRender.atom-one .token.url, .MarkdownRender.atom-one .lang-css .token.string, .MarkdownRender.atom-one .style .token.string {
+    color: #56b6c2;
+}
+.MarkdownRender.atom-one .token.atrule, .MarkdownRender.atom-one .token.keyword {
+    color: #c678dd;
+}
+.MarkdownRender.atom-one .token.function {
+    color: #61afef;
+}
+.MarkdownRender.atom-one .token.regex, .MarkdownRender.atom-one .token.important, .MarkdownRender.atom-one .token.variable {
+    color: #c678dd;
+}
+.MarkdownRender.atom-one .token.important, .MarkdownRender.atom-one .token.bold {
+    font-weight: bold;
+}
+.MarkdownRender.atom-one .token.italic {
+    font-style: italic;
+}
+.MarkdownRender.atom-one .token.entity {
+    cursor: help;
+}
+.MarkdownRender.atom-one pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+.MarkdownRender.atom-one pre.line-numbers > code {
+    position: relative;
+}
+.MarkdownRender.atom-one .line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: -3.8em;
+    width: 3em;
+    /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.MarkdownRender.atom-one .line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+.MarkdownRender.atom-one .line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #5c6370;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+.MarkdownRender.dracula {
+    /* PrismJS 1.14.0
+     http://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+abap+actionscript+ada+apacheconf+apl+applescript+c+arff+asciidoc+asm6502+aspnet+autohotkey+autoit+bash+basic+batch+bison+brainfuck+bro+cpp+csharp+arduino+coffeescript+clojure+ruby+csp+css-extras+d+dart+diff+django+docker+eiffel+elixir+elm+markup-templating+erlang+fsharp+flow+fortran+gedcom+gherkin+git+glsl+go+graphql+groovy+haml+handlebars+haskell+haxe+http+hpkp+hsts+ichigojam+icon+inform7+ini+io+j+java+jolie+json+julia+keyman+kotlin+latex+less+liquid+lisp+livescript+lolcode+lua+makefile+markdown+erb+matlab+mel+mizar+monkey+n4js+nasm+nginx+nim+nix+nsis+objectivec+ocaml+opencl+oz+parigp+parser+pascal+perl+php+php-extras+sql+powershell+processing+prolog+properties+protobuf+pug+puppet+pure+python+q+qore+r+jsx+typescript+renpy+reason+rest+rip+roboconf+crystal+rust+sas+sass+scss+scala+scheme+smalltalk+smarty+plsql+soy+stylus+swift+tcl+textile+twig+tsx+vbnet+velocity+verilog+vhdl+vim+visual-basic+wasm+wiki+xeora+xojo+yaml&plugins=line-numbers+toolbar+show-language */
+    /**
+     * prism.js default theme for JavaScript, CSS and HTML
+     * Based on dabblet (http://dabblet.com)
+     * @author Lea Verou
+     */
+    /*
+     * Dracula Theme for Prism.JS
+     *
+     * @author Gustavo Costa
+     * e-mail: gusbemacbe@gmail.com
+     *
+     * @contributor Jon Leopard
+     * e-mail: jonlprd@gmail.com
+     *
+     * @license MIT 2016-2018
+     */
+    /* Inline code */
+}
+.MarkdownRender.dracula code[class*="language-"], .MarkdownRender.dracula pre[class*="language-"] {
+    color: #ccc;
+    background: #282936;
+}
+.MarkdownRender.dracula pre[class*="language-"]::-moz-selection, .MarkdownRender.dracula pre[class*="language-"] ::-moz-selection, .MarkdownRender.dracula code[class*="language-"]::-moz-selection, .MarkdownRender.dracula code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background-color: #5a5f80;
+}
+.MarkdownRender.dracula pre[class*="language-"]::selection, .MarkdownRender.dracula pre[class*="language-"] ::selection, .MarkdownRender.dracula code[class*="language-"]::selection, .MarkdownRender.dracula code[class*="language-"] ::selection {
+    text-shadow: none;
+    background-color: #5a5f80;
+}
+.MarkdownRender.dracula :not(pre) > code[class*="language-"] {
+    border-radius: 0.3em;
+    white-space: normal;
+}
+.MarkdownRender.dracula pre {
+    color: #ccc;
+    background: #282936;
+}
+.MarkdownRender.dracula .limit-300 {
+    height: 300px !important;
+}
+.MarkdownRender.dracula .limit-400 {
+    height: 400px !important;
+}
+.MarkdownRender.dracula .limit-500 {
+    height: 500px !important;
+}
+.MarkdownRender.dracula .limit-600 {
+    height: 600px !important;
+}
+.MarkdownRender.dracula .limit-700 {
+    height: 700px !important;
+}
+.MarkdownRender.dracula .limit-800 {
+    height: 800px !important;
+}
+.MarkdownRender.dracula .token.comment {
+    color: #6272a4;
+}
+.MarkdownRender.dracula .token.prolog {
+    color: #cfcfc2;
+}
+.MarkdownRender.dracula .token.tag {
+    color: #dc68aa;
+}
+.MarkdownRender.dracula .token.entity {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .token.atrule {
+    color: #62ef75;
+}
+.MarkdownRender.dracula .token.url {
+    color: #66d9ef;
+}
+.MarkdownRender.dracula .token.selector {
+    color: #cfcfc2;
+}
+.MarkdownRender.dracula .token.string {
+    color: #f1fa8c;
+}
+.MarkdownRender.dracula .token.property {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .token.important {
+    color: #ff79c6;
+    font-weight: bold;
+}
+.MarkdownRender.dracula .token.punctuation {
+    color: #e6db74;
+}
+.MarkdownRender.dracula .token.number {
+    color: #bd93f9;
+}
+.MarkdownRender.dracula .token.function {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .token.class-name {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .token.keyword {
+    color: #ff79c6;
+}
+.MarkdownRender.dracula .token.boolean {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .token.operator {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .token.char {
+    color: #ff879d;
+}
+.MarkdownRender.dracula .token.regex {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .token.variable {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .token.constant {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .token.symbol {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .token.builtin {
+    color: #ff79c6;
+}
+.MarkdownRender.dracula .token.attr-value {
+    color: #7ec699;
+}
+.MarkdownRender.dracula .token.deleted {
+    color: #e2777a;
+}
+.MarkdownRender.dracula .token.namespace {
+    color: #e2777a;
+}
+.MarkdownRender.dracula .token.bold {
+    font-weight: bold;
+}
+.MarkdownRender.dracula .token.italic {
+    font-style: italic;
+}
+.MarkdownRender.dracula .token {
+    color: #ff79c6;
+}
+.MarkdownRender.dracula .langague-cpp .token.string {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .langague-c .token.string {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .language-css .token.selector {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .language-css .token.property {
+    color: #ffb86c;
+}
+.MarkdownRender.dracula .language-java span.token.class-name {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .language-java .token.class-name {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .language-markup .token.attr-value {
+    color: #66d9ef;
+}
+.MarkdownRender.dracula .language-markup .token.tag {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .language-objectivec .token.property {
+    color: #66d9ef;
+}
+.MarkdownRender.dracula .language-objectivec .token.string {
+    color: #50fa7b;
+}
+.MarkdownRender.dracula .language-php .token.boolean {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .language-php .token.function {
+    color: #ff79c6;
+}
+.MarkdownRender.dracula .language-php .token.keyword {
+    color: #66d9ef;
+}
+.MarkdownRender.dracula .language-ruby .token.symbol {
+    color: #8be9fd;
+}
+.MarkdownRender.dracula .language-ruby .token.class-name {
+    color: #cfcfc2;
+}
+.MarkdownRender.dracula pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+.MarkdownRender.dracula pre.line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+.MarkdownRender.dracula .line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em;
+    /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.MarkdownRender.dracula .line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+.MarkdownRender.dracula .line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+.MarkdownRender.dracula div.code-toolbar {
+    position: relative;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar {
+    position: absolute;
+    top: 0.3em;
+    right: 0.2em;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+.MarkdownRender.dracula div.code-toolbar:hover > .toolbar {
+    opacity: 1;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar .toolbar-item {
+    display: inline-block;
+    padding-right: 20px;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar a {
+    cursor: pointer;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar button {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-user-select: none;
+    /* for button */
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar a, .MarkdownRender.dracula div.code-toolbar > .toolbar button, .MarkdownRender.dracula div.code-toolbar > .toolbar span {
+    color: #ccc;
+    font-size: 0.8em;
+    padding: 0.5em;
+    background: #6272a4;
+    border-radius: 0.5em;
+}
+.MarkdownRender.dracula div.code-toolbar > .toolbar a:hover, .MarkdownRender.dracula div.code-toolbar > .toolbar a:focus, .MarkdownRender.dracula div.code-toolbar > .toolbar button:hover, .MarkdownRender.dracula div.code-toolbar > .toolbar button:focus, .MarkdownRender.dracula div.code-toolbar > .toolbar span:hover, .MarkdownRender.dracula div.code-toolbar > .toolbar span:focus {
+    color: inherit;
+    text-decoration: none;
+    background-color: var(--verde);
+}
+.MarkdownRender.github {
+    /**
+     * Github-like theme for Prism.js
+     * @author Luke Askew http://github.com/lukeaskew
+     */
+}
+.MarkdownRender.github code, .MarkdownRender.github code[class*="language-"], .MarkdownRender.github pre[class*="language-"] {
+    color: #333;
+}
+.MarkdownRender.github pre {
+    color: #333;
+}
+.MarkdownRender.github .token.comment, .MarkdownRender.github .token.prolog, .MarkdownRender.github .token.doctype, .MarkdownRender.github .token.cdata {
+    color: #969896;
+}
+.MarkdownRender.github .token.punctuation, .MarkdownRender.github .token.string, .MarkdownRender.github .token.atrule, .MarkdownRender.github .token.attr-value {
+    color: #183691;
+}
+.MarkdownRender.github .token.property, .MarkdownRender.github .token.tag {
+    color: #63a35c;
+}
+.MarkdownRender.github .token.boolean, .MarkdownRender.github .token.number {
+    color: #0086b3;
+}
+.MarkdownRender.github .token.selector, .MarkdownRender.github .token.attr-name, .MarkdownRender.github .token.attr-value .punctuation:first-child, .MarkdownRender.github .token.keyword, .MarkdownRender.github .token.regex, .MarkdownRender.github .token.important {
+    color: #a71d5d;
+}
+.MarkdownRender.github .token.operator, .MarkdownRender.github .token.entity, .MarkdownRender.github .token.url, .language-css .MarkdownRender.github .token.string {
+    color: #a71d5d;
+}
+.MarkdownRender.github .token.entity {
+    cursor: help;
+}
+.MarkdownRender.github .namespace {
+    opacity: 0.7;
+}
+.MarkdownRender.monokai {
+    /**
+     * Monokai theme for Prism.JS
+     *
+     * @author Martijn Swaagman
+     * @license MIT 2015
+     */
+}
+.MarkdownRender.monokai code[class*="language-"], .MarkdownRender.monokai pre[class*="language-"] {
+    color: #f8f8f2;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+}
+.MarkdownRender.monokai :not(pre) > code[class*="language-"], .MarkdownRender.monokai pre[class*="language-"] {
+    background: #272822;
+}
+.MarkdownRender.monokai pre {
+    color: #f8f8f2;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    background: #272822;
+}
+.MarkdownRender.monokai .token.comment, .MarkdownRender.monokai .token.prolog, .MarkdownRender.monokai .token.doctype, .MarkdownRender.monokai .token.cdata {
+    color: #778090;
+}
+.MarkdownRender.monokai .token.punctuation {
+    color: #f8f8f2;
+}
+.MarkdownRender.monokai .namespace {
+    opacity: 0.7;
+}
+.MarkdownRender.monokai .token.property, .MarkdownRender.monokai .token.tag, .MarkdownRender.monokai .token.constant, .MarkdownRender.monokai .token.symbol, .MarkdownRender.monokai .token.deleted {
+    color: #f92672;
+}
+.MarkdownRender.monokai .token.boolean, .MarkdownRender.monokai .token.number {
+    color: #ae81ff;
+}
+.MarkdownRender.monokai .token.selector, .MarkdownRender.monokai .token.attr-name, .MarkdownRender.monokai .token.string, .MarkdownRender.monokai .token.char, .MarkdownRender.monokai .token.builtin, .MarkdownRender.monokai .token.inserted {
+    color: #a6e22e;
+}
+.MarkdownRender.monokai .token.operator, .MarkdownRender.monokai .token.entity, .MarkdownRender.monokai .token.url, .MarkdownRender.monokai .language-css .token.string, .MarkdownRender.monokai .style .token.string, .MarkdownRender.monokai .token.variable {
+    color: #f8f8f2;
+}
+.MarkdownRender.monokai .token.atrule, .MarkdownRender.monokai .token.attr-value, .MarkdownRender.monokai .token.function {
+    color: #e6db74;
+}
+.MarkdownRender.monokai .token.keyword {
+    color: #f92672;
+}
+.MarkdownRender.monokai .token.regex, .MarkdownRender.monokai .token.important {
+    color: #fd971f;
+}
+.MarkdownRender.monokai .token.important, .MarkdownRender.monokai .token.bold {
+    font-weight: bold;
+}
+.MarkdownRender.monokai .token.italic {
+    font-style: italic;
+}
+.MarkdownRender.monokai .token.entity {
+    cursor: help;
+}
+.MarkdownRender.duotone-light {
+    /*
+     Name:   Duotone Light
+     Author: Simurai, adapted from DuoTone themes for Atom (http://simurai.com/projects/2016/01/01/duotone-themes)
+     Conversion: Bram de Haan (http://atelierbram.github.io/Base2Tone-prism/output/prism/prism-base2tone-morning-light.css)
+     Generated with Base16 Builder (https://github.com/base16-builder/base16-builder)
+     */
+    /* overrides color-values for the Line Numbers plugin
+     * http://prismjs.com/plugins/line-numbers/
+     */
+    /* overrides color-values for the Line Highlight plugin
+     * http://prismjs.com/plugins/line-highlight/
+     */
+}
+.MarkdownRender.duotone-light code[class*="language-"], .MarkdownRender.duotone-light pre[class*="language-"] {
+    background: #faf8f5;
+    color: #728fcb;
+}
+.MarkdownRender.duotone-light pre[class*="language-"]::-moz-selection, .MarkdownRender.duotone-light pre[class*="language-"] ::-moz-selection, .MarkdownRender.duotone-light code[class*="language-"]::-moz-selection, .MarkdownRender.duotone-light code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background: #faf8f5;
+}
+.MarkdownRender.duotone-light pre[class*="language-"]::selection, .MarkdownRender.duotone-light pre[class*="language-"] ::selection, .MarkdownRender.duotone-light code[class*="language-"]::selection, .MarkdownRender.duotone-light code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #faf8f5;
+}
+.MarkdownRender.duotone-light pre {
+    background: #faf8f5;
+    color: #728fcb;
+}
+.MarkdownRender.duotone-light .token.comment, .MarkdownRender.duotone-light .token.prolog, .MarkdownRender.duotone-light .token.doctype, .MarkdownRender.duotone-light .token.cdata {
+    color: #b6ad9a;
+}
+.MarkdownRender.duotone-light .token.punctuation {
+    color: #b6ad9a;
+}
+.MarkdownRender.duotone-light .token.namespace {
+    opacity: 0.7;
+}
+.MarkdownRender.duotone-light .token.tag, .MarkdownRender.duotone-light .token.operator, .MarkdownRender.duotone-light .token.number {
+    color: #063289;
+}
+.MarkdownRender.duotone-light .token.property, .MarkdownRender.duotone-light .token.function {
+    color: #b29762;
+}
+.MarkdownRender.duotone-light .token.tag-id, .MarkdownRender.duotone-light .token.selector, .MarkdownRender.duotone-light .token.atrule-id {
+    color: #2d2006;
+}
+.MarkdownRender.duotone-light code.language-javascript, .MarkdownRender.duotone-light .token.attr-name {
+    color: #896724;
+}
+.MarkdownRender.duotone-light code.language-css, .MarkdownRender.duotone-light code.language-scss, .MarkdownRender.duotone-light .token.boolean, .MarkdownRender.duotone-light .token.string, .MarkdownRender.duotone-light .token.entity, .MarkdownRender.duotone-light .token.url, .MarkdownRender.duotone-light .language-css .token.string, .MarkdownRender.duotone-light .language-scss .token.string, .MarkdownRender.duotone-light .style .token.string, .MarkdownRender.duotone-light .token.attr-value, .MarkdownRender.duotone-light .token.keyword, .MarkdownRender.duotone-light .token.control, .MarkdownRender.duotone-light .token.directive, .MarkdownRender.duotone-light .token.unit, .MarkdownRender.duotone-light .token.statement, .MarkdownRender.duotone-light .token.regex, .MarkdownRender.duotone-light .token.atrule {
+    color: #728fcb;
+}
+.MarkdownRender.duotone-light .token.placeholder, .MarkdownRender.duotone-light .token.variable {
+    color: #93abdc;
+}
+.MarkdownRender.duotone-light .token.deleted {
+    text-decoration: line-through;
+}
+.MarkdownRender.duotone-light .token.inserted {
+    border-bottom: 1px dotted #2d2006;
+    text-decoration: none;
+}
+.MarkdownRender.duotone-light .token.italic {
+    font-style: italic;
+}
+.MarkdownRender.duotone-light .token.important, .MarkdownRender.duotone-light .token.bold {
+    font-weight: bold;
+}
+.MarkdownRender.duotone-light .token.important {
+    color: #896724;
+}
+.MarkdownRender.duotone-light .token.entity {
+    cursor: help;
+}
+.MarkdownRender.duotone-light pre > code.highlight {
+    outline: 0.4em solid #896724;
+    outline-offset: 0.4em;
+}
+.MarkdownRender.duotone-light .line-numbers .line-numbers-rows {
+    border-right-color: #ece8de;
+}
+.MarkdownRender.duotone-light .line-numbers-rows > span:before {
+    color: #cdc4b1;
+}
+.MarkdownRender.duotone-light .line-highlight {
+    background: rgba(45, 32, 6, 0.2);
+    background: -webkit-linear-gradient(left, rgba(45, 32, 6, 0.2) 70%, rgba(45, 32, 6, 0));
+    background: -webkit-gradient(linear, left top, right top, color-stop(70%, rgba(45, 32, 6, 0.2)), to(rgba(45, 32, 6, 0)));
+    background: -o-linear-gradient(left, rgba(45, 32, 6, 0.2) 70%, rgba(45, 32, 6, 0));
+    background: linear-gradient(to right, rgba(45, 32, 6, 0.2) 70%, rgba(45, 32, 6, 0));
+}
+.MarkdownRender h1 code, .MarkdownRender h2 code, .MarkdownRender h3 code, .MarkdownRender h4 code, .MarkdownRender h5 code, .MarkdownRender h6 code, .MarkdownRender p code {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    border-radius: 3px;
+    background: #f1f3f5;
+    border: 1px solid #ced4da;
+    color: #868e96;
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
+.MarkdownRender p, .MarkdownRender blockquote, .MarkdownRender table, .MarkdownRender pre {
+    margin: 15px 0;
+}
+.MarkdownRender blockquote {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.MarkdownRender pre {
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow: auto;
+    border: 1px solid #f1f3f5;
+    background: #fafafa;
+}
+.MarkdownRender pre code {
+    font-family: 'Inconsolata', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+.MarkdownRender li {
+    line-height: 1.75;
+}
+.MarkdownRender ul, .MarkdownRender ol {
+    font-weight: 400;
+    color: #495057;
+}
+.MarkdownRender ul {
+    padding-left: 30px;
+}
+.MarkdownRender li + li {
+    margin-top: 0.25em;
+}
+.MarkdownRender ol {
+    padding-left: 30px;
+}
+.MarkdownRender ol li ul:first-of-type {
+    margin-top: 0px;
+}
+.MarkdownRender hr {
+    border-top: 1px solid #dee2e6;
+    margin: 15px 0;
+    padding: 0;
+}
+.MarkdownRender > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+.MarkdownRender > h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+.MarkdownRender > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0;
+}
+.MarkdownRender > h3:first-child, .MarkdownRender > h4:first-child, .MarkdownRender > h5:first-child, .MarkdownRender > h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+.MarkdownRender a:first-child h1, .MarkdownRender a:first-child h2, .MarkdownRender a:first-child h3, .MarkdownRender a:first-child h4, .MarkdownRender a:first-child h5, .MarkdownRender a:first-child h6 {
+    margin-top: 0;
+    padding-top: 0;
+}
+.MarkdownRender h1 + p, .MarkdownRender h2 + p, .MarkdownRender h3 + p, .MarkdownRender h4 + p, .MarkdownRender h5 + p, .MarkdownRender h6 + p, .MarkdownRender ul li > :first-child, .MarkdownRender ol li > :first-child {
+    margin-top: 0;
+}
+.MarkdownRender dl {
+    padding: 0;
+}
+.MarkdownRender dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px;
+}
+.MarkdownRender dl dt:first-child {
+    padding: 0;
+}
+.MarkdownRender dl dt > :first-child {
+    margin-top: 0;
+}
+.MarkdownRender dl dt > :last-child {
+    margin-bottom: 0;
+}
+.MarkdownRender dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+}
+.MarkdownRender dl dd > :first-child {
+    margin-top: 0;
+}
+.MarkdownRender dl dd > :last-child {
+    margin-bottom: 0;
+}
+.MarkdownRender blockquote {
+    border-left: 4px solid #ddd;
+    padding: 0 15px;
+    color: #777;
+}
+.MarkdownRender blockquote > :first-child {
+    margin-top: 0;
+}
+.MarkdownRender blockquote > :last-child {
+    margin-bottom: 0;
+}
+.MarkdownRender table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 100%;
+    font: inherit;
+}
+.MarkdownRender table th {
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+}
+.MarkdownRender table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+}
+.MarkdownRender table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+}
+.MarkdownRender table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+.MarkdownRender img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    pointer-events: none;
+}
+.MarkdownRender .youtube {
+    background: #f8f9fa;
+    border-radius: 4px;
+    display: block;
+    margin: auto;
+    width: 768px;
+    max-width: 100%;
+    height: 430px;
+}
+@media (max-width: 767px) {
+    .MarkdownRender .youtube {
+        height: 300px;
+    }
+}
+.MarkdownRender blockquote {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.MarkdownRender .twitter-wrapper {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 580px;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.MarkdownRender .twitter-wrapper blockquote {
+    background: #f8f9fa;
+    border-radius: 4px;
+    width: 500px;
+    height: 400px;
+    border-left: none;
+}

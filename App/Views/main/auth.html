@@ -93,7 +93,8 @@
 
             function handleFormSubmit(event) {  // handles form submit without any jquery
                 event.preventDefault();           // we are submitting via xhr below
-                let form = event.target;
+                // let form = event.target;
+                let form = $("#gform")[0];
                 let formData = getFormData(form);
                 let data = formData.data;
 
@@ -109,6 +110,19 @@
 
             // 코드 : 이메일 -> 세션 등록
             function setEmailSession(){
+                // 빈값 체크
+                if(!$("#email").val().trim()){
+                    return;
+                }
+
+                // 이메일주소 형식 체크 정규식
+                let regExpEm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+                if(!regExpEm.test($("#email").val().trim())){
+                    alert("이메일을 형식이 아닙니다.");
+                    $("#email").focus();
+                    return false;
+                }
+
                 $.ajax({
                     url : "/email"
                     ,data : $("#gform").serialize()
@@ -118,6 +132,7 @@
                         if(data.result){
                             sendEmail(data.code);
                         }else{
+                            alert(data.msg);
                             console.log(data);
                         }
                     }
@@ -141,9 +156,11 @@
                 xhr.open('POST', url);
                 // xhr.withCredentials = true;
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                pageLodingOn();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         // 성공
+                        pageLodingOff();
                         alert("메일이 전송되었습니다. \n메일 확인 후 회원가입이 진행됩니다.");
                     }else{
                         console.log(xhr.responseText);
@@ -167,10 +184,10 @@
             document.addEventListener("DOMContentLoaded", loaded, false);
 
             function disableAllButtons(form) {
-                let buttons = form.querySelectorAll("button");
-                for (let i = 0; i < buttons.length; i++) {
-                    buttons[i].disabled = true;
-                }
+                // let buttons = form.querySelectorAll("button");
+                // for (let i = 0; i < buttons.length; i++) {
+                //     buttons[i].disabled = true;
+                // }
             }
         })();
 </script>

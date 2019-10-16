@@ -12,6 +12,7 @@ class Main extends \Core\Controller {
      * 설명 : 메인 페이지
      */
     function basicAction(){
+        unset($_SESSION['USER']); //회원 로그아웃 처리
         View::renderTemplate("main/main.html");
     }
 
@@ -29,6 +30,34 @@ class Main extends \Core\Controller {
      */
     function authAction(){
         View::renderTemplate("main/auth.html");
+    }
+
+    /**
+     * url : /login
+     * 설명 : 회원 아이디/비밀번호를 확인 후 세션에 저장한다.
+     */
+    function loginAction(){
+        try{
+            $method = $_SERVER['REQUEST_METHOD'];
+            if($method == "POST"){
+                $user = new User(); // db 조회를 위한 모델 생성
+                $data = $user->selectUser($_POST); // 회원 정보 조회
+
+                if(isset($data) && isset($data->USER_ID) ){
+                    $_SESSION['USER'] = $data;
+                    $result['result'] = true;
+                }else{
+                    $result['result'] = false;
+                    $result['msg'] = "일치하는 회원정보가 없습니다.";
+                }
+
+            }
+        }catch(Exception $e){
+            $result['result'] = false;
+            $result['msg'] = "로그인 처리중 오류가 발생했습니다.";
+        }finally{
+            echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
@@ -61,6 +90,15 @@ class Main extends \Core\Controller {
                     return;
                 }
 
+                $user = new User(); // db 조회를 위한 모델 생성
+                $data = $user->hasEmail($email); // 해당 이메일로 중복 결과 반환
+
+                if(!$data){ //중복 이메일일 경우
+                    $result['result'] = false;
+                    $result['msg'] = "이미 인증완료된 이메일입니다.";
+                    return;
+                }
+
                 // 하루동안 유지
 //                session_cache_expire(1440);
                 $code = $this->generateRandomString();
@@ -69,10 +107,10 @@ class Main extends \Core\Controller {
                 $result['result'] = true;
                 $result['code'] = $code;
             }else{
-                $result['result'] = fail;
+                $result['result'] = false;
             }
         }catch (Exception $e){
-            $result['result'] = fail;
+            $result['result'] = false;
         }finally{
             echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
         }
@@ -91,14 +129,18 @@ class Main extends \Core\Controller {
                 $data = $user->hasUserID($id); // 해당 아이디로 중복 결과 반환
 
                 $result['result'] = true;
+                if($data){
+                    $result['msg'] = "사용 가능한 아이디입니다.";
+                }else{
+                    $result['msg'] = "이미 사용중인 아이디입니다.";
+                }
                 $result['data'] = $data;
-                $result['msg'] = "사용가능한 아이디입니다.";
             }else{
-                $result['result'] = fail;
+                $result['result'] = false;
                 $result['msg'] = "처리에 실패했습니다.";
             }
         }catch (Exception $e){
-            $result['result'] = fail;
+            $result['result'] = false;
             $result['msg'] = "회원 아이디 중복 검사중 오류가 발생했습니다.";
         }finally{
             echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
@@ -118,11 +160,11 @@ class Main extends \Core\Controller {
 
                 $result['result'] = true;
             }else{
-                $result['result'] = fail;
+                $result['result'] = false;
                 $result['msg'] = "처리에 실패했습니다.";
             }
         }catch (Exception $e){
-            $result['result'] = fail;
+            $result['result'] = false;
             $result['msg'] = "회원 등록 중 오류가 발생했습니다.";
         }finally{
             echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);

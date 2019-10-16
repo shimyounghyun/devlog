@@ -1,0 +1,104 @@
+.CodeEditor {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    min-width: 0;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.CodeEditor.material {
+    background: #263238;
+}
+.CodeEditor .ios-fallback {
+    -ms-flex: 1 1;
+    flex: 1 1;
+    outline: none;
+    background: transparent;
+    padding: 0.75rem;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.CodeEditor .editor {
+    min-width: 0;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.CodeEditor .editor .CodeMirror {
+    -ms-flex: 1 1;
+    flex: 1 1;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    flex: 1 1;
+    font-family: 'initial';
+    font-family: 'Inconsolata', 'D2 Coding', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.5;
+}
+@media (max-width: 1023px) {
+    .CodeEditor .editor .CodeMirror {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+}
+.CodeEditor .editor .CodeMirror .CodeMirror-lines {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+@media (max-width: 1023px) {
+    .CodeEditor .editor .CodeMirror .CodeMirror-lines {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+@media (max-width: 1023px) {
+    .CodeEditor .editor .CodeMirror {
+        font-size: 1rem;
+        line-height: 1.25;
+    }
+}
+.CodeEditor .editor .CodeMirror .cm-header {
+    line-height: 1.75;
+}
+.CodeEditor .editor .CodeMirror .cm-header-1 {
+    font-size: 2.25rem;
+}
+.CodeEditor .editor .CodeMirror .cm-header-2 {
+    font-size: 1.6825rem;
+}
+.CodeEditor .editor .CodeMirror .cm-header-3 {
+    font-size: 1.3125rem;
+}
+.CodeEditor .editor .CodeMirror .cm-header-4 {
+    font-size: 1.125rem;
+}
+.CodeEditor .editor .CodeMirror.cm-s-default {
+    border-right: 1px solid #e9ecef;
+}
+.CodeEditor .editor .CodeMirror.cm-s-default .cm-header {
+    color: #212529;
+    font-weight: 600;
+}
+.CodeEditor .editor .CodeMirror.cm-s-default .cm-header.cm-comment {
+    color: #495057;
+}
+.CodeEditor .editor .CodeMirror.cm-s-material.CodeMirror-empty {
+    color: #adb5bd;
+}
+.CodeEditor .editor .CodeMirror.cm-s-material .cm-header {
+    color: white;
+}
+.CodeEditor .editor .CodeMirror.cm-s-material .cm-header.cm-comment {
+    color: #868e96;
+}
+.CodeEditor .editor .CodeMirror.cm-s-material .cm-quote {
+    color: #adb5bd;
+    font-style: italic;
+}
