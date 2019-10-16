@@ -1,6 +1,4 @@
 {{ include('header.html') }}
-<!-- lottie -->
-<script src="https://labs.nearpod.com/bodymovin/demo/markus/halloween/lottie.min.js"></script>
 <div class="regist-area">
     <!-- 상단 로고 -->
     <div class="header" style="background: #495057;">
@@ -10,7 +8,7 @@
             </a>
             <div class="step-info">
                 <span>/</span>
-                약관 동의
+                회원 가입
             </div>
             <ol class="regist-step">
                 <li>첫번째</li>
@@ -124,6 +122,27 @@
                     }
                 });
             }
+        });
+
+        // 비밀번호 양식, 글자 수 체크
+        $("#user_pw").on('keyup',function(){
+            // 비밀번호 형식 체크
+            let regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+            if(!regExpPw.test($("#user_pw").val())){
+                checkResult(false,1,"숫자, 특문 각 1회, 영문 2회, 총 8자리 이상");
+            }else{
+                checkResult(true,1);
+            }
+        });
+
+        // 비밀번호 일치 여부 확인
+        $("#confirm_pw").on('keyup',function(){
+            if(!$("#confirm_pw").val() || $("#confirm_pw").val() != $("#user_pw").val()){
+                checkResult(false,2,"비밀번호가 일치하지 않습니다.");
+            }else{
+                checkResult(true,2);
+            }
+
         });
 
         // 로딩 애니메이션 초기화

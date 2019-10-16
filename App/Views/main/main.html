@@ -10,17 +10,52 @@
         <div class="right">
             <div class="wrapper">
                 <h2>지금, 시작하세요.</h2>
-                <div class="login-form">
-                    <input type="text" placeholder="이메일 입력">
-                    <input type="password" placeholder="비밀번호 입력">
-                    <input type="button" value="로그인">
-                    <div class="divider-wrapper">
-                        <a class="siginin" href="javascript:void(0);" onclick="location.href='/policy'">회원 가입</a> /
-                        <a class="explore" href="javascript:void(0);" onclick="location.href='/recent'">로그인 하지 않고 둘러보기</a>
+                <form id="login_frm">
+                    <div class="login-form">
+                        <input type="text" placeholder="아이디 입력" id="user_id" name="user_id">
+                        <input type="password" placeholder="비밀번호 입력" id="user_pw" name="user_pw">
+                        <input type="button" value="로그인" onclick="login();">
+                        <div class="divider-wrapper">
+                            <a class="siginin" href="javascript:void(0);" onclick="location.href='/policy'">회원 가입</a> /
+                            <a class="explore" href="javascript:void(0);" onclick="location.href='/recent'">로그인 하지 않고 둘러보기</a>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    //로그인 진행
+    function login() {
+        if(!$("#user_id").val().trim()){
+            $("#user_id").focus();
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        if(!$("#user_pw").val().trim()){
+            $("#user_pw").focus();
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+
+        $.ajax({
+            url : '/login'
+            ,type : 'POST'
+            ,dataType : 'json'
+            ,data : $("#login_frm").serialize()
+            ,success : (data)=>{
+                if(data.result){
+                    location.href = '/recent';
+                }else{
+                    alert(data.msg);
+                }
+            }
+            ,error : (xhr,stat, err) =>{
+                console.log(err);
+            }
+        })
+    }
+</script>
 {{ include('footer.html') }}

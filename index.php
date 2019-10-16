@@ -3,6 +3,7 @@ define('_LOGO',"https://user-images.githubusercontent.com/26181611/66730506-3f38
 define('_BASIC_THUMB',"https://user-images.githubusercontent.com/26181611/66734736-2f29f380-ee9f-11e9-9953-68ccd5edea7a.jpg");
 define('_ROOT',dirname(__FILE__)."/");
 define('_APP',_ROOT."App/");
+define('_EDITOR',_APP."upload/editor/");
 define('_PUBLIC',_ROOT."public/");
 define('_MODEL',_APP."App/Models/");
 define('_CONTROLLER',_APP."App/Controllers/");
@@ -25,12 +26,14 @@ $router->add('auth'     , ['controller' => 'Main', 'action' => 'auth']);
 $router->add('regist'   , ['controller' => 'Main', 'action' => 'regist']);
 $router->add('idCheck'  , ['controller' => 'Main', 'action' => 'idCheck']);
 $router->add('join'     , ['controller' => 'Main', 'action' => 'join']);
+$router->add('login'    , ['controller' => 'Main', 'action' => 'login']);
 
 // 포스트
-$router->add('recent'    , ['controller' => 'Post', 'action' => 'recent']);
-$router->add('write'     , ['controller' => 'Post', 'action' => 'write']);
-
+$router->add('recent'          , ['controller' => 'Post', 'action' => 'recent']);
+$router->add('write'           , ['controller' => 'Post', 'action' => 'write']);
+$router->add('uploadImage'     , ['controller' => 'Post', 'action' => 'uploadImage']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
+
 ?>
 

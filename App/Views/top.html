@@ -2,16 +2,16 @@
     <div class="spacer"></div>
     <div class="right">
 
-        {% if session.user is empty %} <!-- 비로그인 -->
-        <button class="button outline">로그인</button>
+        {% if session.USER is empty %} <!-- 비로그인 -->
+        <button class="button outline" type="button" onclick="location.href='/'">로그인</button>
         {% else %} <!-- 로그인 -->
         <div class="user-button">
             <div class="thumbnail">
                 <!-- 유저 썸네일이 있는지 확인 -->
-                {% if session.user.thumbnail is empty %}
+                {% if session.USER.thumbnail is empty %}
                     {% set thumb = constant('_BASIC_THUMB')%}
                 {% else%}
-                    {% set thumb = session.user.thumbnail %}
+                    {% set thumb = session.USER.thumbnail %}
                 {% endif%}
                 <img src="{{thumb}}" style="height:48px; width:48px;">
             </div>
@@ -21,15 +21,15 @@
                 <div class="menu-direction"></div>
                 <div class="user-menu">
                     <div class="menu-profile">
-                        <a>닉네임</a>
-                        <span class="menu-email">lhlrol1004@naver.com</span>
+                        <a>{{session.USER.USER_NAME}}</a>
+                        <span class="menu-email">{{session.USER.USER_EMAIL}}</span>
                     </div>
                     <div class="menu-post">
-                        <a>새 글 작성</a>
+                        <a href="javascript:void(0);" onclick="location.href='/write'">새 글 작성</a>
                         <a>임시 글 보기</a>
                     </div>
                     <div class="menu-post">
-                        <a>로그아웃</a>
+                        <a href="javascript:void(0);" onclick="location.href='/'">로그아웃</a>
                     </div>
                 </div>
             </div>
