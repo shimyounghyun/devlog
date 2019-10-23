@@ -15,6 +15,7 @@ class Model
     var $table;
     var $action;
     var $sql;
+    var $bind;
 
     //생성자
     function __construct(){
@@ -33,11 +34,12 @@ class Model
         if($res->execute($this->column)){
             return $res;
         } else {
-            echo "<pre>";
-            echo $this->sql;
-            print_r($this->column);
-            print_r($this->db->errorInfo());
-            echo "</pre>";
+//            echo "<pre>";
+//            echo $this->sql;
+//            print_r($this->column);
+//            print_r($this->db->errorInfo());
+//            echo "</pre>";
+            return $this->db->errorInfo();
         }
     }
     //fetch

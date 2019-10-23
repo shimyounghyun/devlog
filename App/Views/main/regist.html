@@ -25,7 +25,8 @@
                     <div class="regist-item">
                         <div class="item-info">이메일 <span>*</span></div>
                         <div class="mdl-textfield mdl-js-textfield regist-item">
-                            <input class="mdl-textfield__input" type="email" id="email" name="email" value="{{code}}" disabled>
+                            <input class="mdl-textfield__input" type="email" id="email" value="{{code}}" disabled>
+                            <input type="hidden" name="email" value="{{code}}"/>
                             <label class="mdl-textfield__label" for="email">이메일</label>
                         </div>
                     </div>
@@ -40,7 +41,7 @@
                             <div class="item-chk">
                                 <img src="https://user-images.githubusercontent.com/26181611/66718023-28a56880-ee1a-11e9-9fbe-756d0ba64c87.png" width="15px" height="15px" id="id_check">
                             </div>
-                            <div id="loading" class="item-loading"></div>
+                            <div id="id_loading" class="item-loading"></div>
                             <div class="mdl-tooltip mdl-tooltip--large" for="id_box" id="id_tooltip">이미 존재하는 아이디 입니다.</div>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
                 </div>
                 <!-- //폼 시작 -->
             </div>
-        </div><!-- // 등록 폼 -->
+        </div> <!-- // 등록 폼 -->
     </form>
 </div>
 
@@ -147,13 +148,13 @@
 
         // 로딩 애니메이션 초기화
         lottie.loadAnimation({
-            container: document.getElementById('loading'), // the dom element that will contain the animation
+            container: document.getElementById('id_loading'), // the dom element that will contain the animation
             renderer: 'svg',
             loop: true,
             autoplay: true,
             path: 'https://assets10.lottiefiles.com/datafiles/fPx4vaZrul2Fvg9/data.json' // the path to the animation json
         });
-    })
+    });
 
     // 뷰 초기화
     function init(){
@@ -176,9 +177,9 @@
                 ,dataType : "json"
                 ,success : function(data){
                     if(data.result){ //성공
-
+                        location.href='/recent';
                     }else{ //오류 발생
-                        alert(data.msg);
+                        openAlert("오류 발생",data.msg);
                     }
                 }
                 ,error : function(r, s, e){
@@ -192,7 +193,7 @@
     function validation(){
         // 이메일 체크
         if(!$("#email").val().trim()){
-            alert("이메일을 입력해주세요.");
+            openAlert("이메일 입력란 확인","이메일을 입력해주세요.");
             $("#email").focus();
             return false;
         }
@@ -200,21 +201,21 @@
         // 이메일주소 형식 체크 정규식
         let regExpEm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         if(!regExpEm.test($("#email").val().trim())){
-            alert("이메일을 형식이 아닙니다.");
+            openAlert("이메일 입력란 확인","이메일 형식이 아닙니다.");
             $("#email").focus();
             return false;
         }
 
         // 아이디 체크
         if(!$("#user_id").val().trim()){
-            alert("아이디를 입력해주세요.");
+            openAlert("아이디 입력란 확인","아이디를 입력해주세요.");
             $("#user_id").focus();
             return false;
         }
 
         // 아이디 길이 체크
         if(!$("#user_id").val().trim().length >= 3){
-            alert("아이디는 최소 3글자이상 입력해야됩니다.");
+            openAlert("아이디 입력란 확인","아이디는 최소 3글자이상 입력해야됩니다.");
             $("#user_id").focus();
             return false;
         }
@@ -222,7 +223,7 @@
         // 비밀번호 체크
         let regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
         if(!$("#user_pw").val()){
-            alert("비밀번호를 입력해주세요.");
+            openAlert("비밀번호 입력란 확인","비밀번호를 입력해주세요.");
             $("#user_pw").focus();
             return false;
         }
@@ -230,21 +231,21 @@
         // 비밀번호 양식 체크
         // 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
         if(!regExpPw.test($("#user_pw").val())){
-            alert("숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력");
+            openAlert("비밀번호 입력란 확인","숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력");
             $("#user_pw").focus();
             return false;
         }
 
         //비밀번호 확인 체크
         if($("#confirm_pw").val() != $("#user_pw").val()){
-            alert('비밀번호가 일치하지 않습니다.');
+            openAlert("비밀번호 입력란 확인",'비밀번호가 일치하지 않습니다.');
             $("#confirm_pw").focus();
             return false;
         }
 
         // 닉네임 체크
         if(!$("#user_name").val()){
-            alert("닉네임을 입력해주세요.");
+            openAlert("닉네임 입력란 확인","닉네임을 입력해주세요.");
             $("#user_name").focus();
             return false;
         }
@@ -256,12 +257,12 @@
     function onLoading(){
         $("#id_uncheck").hide();
         $("#id_check").hide();
-        $("#loading").show();
+        $("#id_loading").show();
     }
 
     //로딩 종료
     function offLoading(){
-        $("#loading").hide();
+        $("#id_loading").hide();
     }
 
     function checkResult(result,type,msg){

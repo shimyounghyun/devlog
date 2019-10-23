@@ -1,0 +1,260 @@
+{{ include('header.html') }}
+<link rel="stylesheet" href="{{constant('_CSS')}}material.css">
+<link rel="stylesheet" href="{{constant('_CSS')}}prism.css">
+<link rel="stylesheet" href="{{constant('_CSS')}}markdown-render.css">
+
+<script src="{{constant('_JS')}}marked.js"></script>
+<script src="{{constant('_JS')}}prism.js"></script>
+
+
+<div class="main-top">
+    <a class="logo-area" href="/portfolio">Young hyun</a>
+    <div class="spacer"></div>
+    <div class="right">
+
+        {% if session.USER is empty %} <!-- 비로그인 -->
+        <button class="button outline" type="button" onclick="location.href='/'">로그인</button>
+        {% else %} <!-- 로그인 -->
+        <div class="user-button">
+            <div class="thumbnail">
+                <!-- 유저 썸네일이 있는지 확인 -->
+                {% if session.USER.USER_THUMBNAIL is empty %}
+                {% set thumb = constant('_BASIC_THUMB')%}
+                {% else%}
+                {% set thumb = session.USER.thumbnail %}
+                {% endif%}
+                <img src="{{thumb}}" style="height:48px; width:48px;">
+            </div>
+        </div>
+        <div class="user-menu-wrapper close">
+            <div class="menu-position">
+                <div class="menu-direction"></div>
+                <div class="user-menu">
+                    <div class="menu-profile">
+                        <a>{{session.USER.USER_NAME}}</a>
+                        <span class="menu-email">{{session.USER.USER_EMAIL}}</span>
+                    </div>
+                    <div class="menu-post">
+                        <a href="javascript:void(0);" onclick="location.href='/write'">새 글 작성</a>
+                        <a>임시 글 보기</a>
+                    </div>
+                    <div class="menu-post">
+                        <a href="javascript:void(0);" onclick="location.href='/'">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="content-area"> <!-- 내용 -->
+    <div class="post-head"> <!-- 글 헤더-->
+        <div class="horizon-user-info">
+            <a class="user-thumbnail">
+                <img>
+            </a>
+            <div class="info">
+                <a class="username">{{post.USER_ID}}</a>
+                <div class="description">개발자입니다.</div>
+            </div>
+        </div>
+        <h1>{{post.POST_TITLE}}</h1>
+        <div class="post-date">{{post.CREATE_DATE}}</div>
+        <div class="separator"></div>
+        <div class="post-action-btn">
+            <button type="button">수정</button>
+            <button type="button">삭제</button>
+        </div>
+    </div> <!-- // 글 헤더-->
+
+    <div class="post-content"> <!-- 글 내용 -->
+        <div class="content">
+            <textarea id="no_markdown_text" style="display: none;">{{post.POST_CONTENT}}</textarea>
+            <div class="MarkdownRender github" id="markdown-render">
+
+            </div>
+        </div>
+    </div> <!-- // 글 내용 -->
+
+    <form id="comment_frm">
+        <textarea style="display: none;" id="comment_content" name="comment_content"></textarea>
+        <input type="hidden" name="post_seq" value="{{post.POST_SEQ}}">
+        <input type="hidden" name="page_num" id="page_num" value="0">
+        <input type="hidden" name="comment_parent" id="comment_parent" value="">
+    </form>
+
+    <div class="post-comment"> <!-- 댓글 -->
+        <h3>{{comment_count}}개의 댓글</h3>
+        <div class="comment-input">
+            <textarea id="comment_root"></textarea>
+            <div class="comment-btn">
+                <button type="button" onclick="sendComment('#comment_root')">댓글 작성</button>
+            </div>
+        </div>
+        <div class="comment-list">
+            {% for item in comment_list %}
+
+            <div class="comment-block">
+                <div class="comment-flex">
+                    <div class="comment-block-head">
+                        <!-- 유저 썸네일이 있는지 확인 -->
+                        {% if item.USER.USER_THUMBNAIL is empty %}
+                            {% set thumb = constant('_BASIC_THUMB')%}
+                        {% else%}
+                            {% set thumb = session.USER.thumbnail %}
+                        {% endif%}
+                        <a><img src="{{thumb}}"></a>
+                        <div class="text-block">
+                            <div class="username">{{item.USER_ID}}</div>
+                            <div class="date">{{item.CREATE_DATE}}</div>
+                        </div>
+                    </div>
+                    <div class="comment-wrapper">
+                        <div class="comment-block-body">
+                            <div class="MarkdownRender">
+                                {{item.COMMENT_CONTENT}}
+                            </div>
+                        </div>
+                        <div class="comment-block-btn">
+                            <button class="edit">수정</button>
+                            <button class="delete">삭제</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="reply_{{item.COMMENT_SEQ}}_btn">
+                    <button class="comment-reply" onclick="reply('{{item.COMMENT_SEQ}}')">
+                        <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
+                        답글 달기
+                    </button>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <div class="comment-page">
+            <span class="inner-paging">
+                <a class="link_prev"><</a>
+                <a class="link_page"><span>1</span></a>
+                <a class="link_page"><span class="active">2</span></a>
+                <a class="link_page"><span>3</span></a>
+                <a class="link_page"><span>4</span></a>
+                <a class="link_page"><span>5</span></a>
+                <a class="link_page"><span>6</span></a>
+                <a class="link_page"><span>7</span></a>
+                <a class="link_page"><span>8</span></a>
+                <a class="link_page"><span>9</span></a>
+                <a class="link_page"><span>10</span></a>
+                <a class="link_next">></a>
+            </span>
+        </div>
+    </div> <!-- //댓글 -->
+</div><!-- //내용 -->
+
+<script>
+    // 메뉴 클릭 이벤트
+    $(document).on('click',(e)=>{
+
+        //썸네일 클릭시 메뉴창이 보임
+        if($(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('close');
+            $(".user-menu-wrapper").addClass('open');
+        }
+
+        //메뉴 외에 다른곳을 눌렀을때 창이 닫힘
+        if($(".user-menu-wrapper").hasClass('open') &&
+            !$(".user-menu-wrapper").has(e.target).length &&
+            !$(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('open');
+            $(".user-menu-wrapper").addClass('close');
+        }
+    });
+
+    $(document).ready(()=>{
+        $("#markdown-render").html(marked($("#no_markdown_text").text()));
+    });
+
+    // 답글 작성창 열기
+    function reply(num){
+        let template = `
+        <button class="comment-reply" onclick="replyClose('${num}')">
+            <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-18.6q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h18.6q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
+            접기
+        </button>
+        <section class="reply-input-area">
+            <div class="comment-input">
+                <textarea id="comment_root_${num}"></textarea>
+                <div class="comment-btn">
+                    <button type="button" onclick="sendComment('#comment_root_${num}','${num}')">댓글 작성</button>
+                    <button class="cancel">취소</button>
+                </div>
+            </div>
+        </section>
+        `;
+
+        $("#reply_"+num+"_btn").html(template);
+    }
+
+    // 답글 접기
+    function replyClose(num){
+        let template = `
+        <button class="comment-reply" onclick="reply('${num}')">
+            <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
+        답글 달기
+        </button>
+        `;
+
+        $("#reply_"+num+"_btn").html(template);
+    }
+
+    //댓글 전송
+    function sendComment(text_id, parent_id) {
+        $("#comment_content").val($(text_id).val());
+        if(parent_id){
+            $("#comment_parent").val(parent_id);
+        }else{
+            $("#comment_parent").val(0);
+        }
+
+        $.ajax({
+            url : '/saveComment'
+            , data : $("#comment_frm").serialize()
+            , dataType : 'json'
+            , type : 'POST'
+            , success : (data)=>{
+                if(data.result){
+                    getCommentList();
+                }else{
+                    openAlert('댓글 등록 오류',data.msg);
+                }
+            }
+            , error : (xhr,stat, err) =>{
+                openAlert('댓글 등록 오류','댓글 등록 처리중 오류가 발생했습니다.');
+                console.log(err);
+            }
+        })
+    }
+
+    //댓글 목록 가져오기
+    function getCommentList(page_num) {
+        if(page_num) $("#page_num").val(page_num);
+
+        $.ajax({
+            url : '/getCommentList'
+            , type : 'POST'
+            , data : $("#comment_frm").serialize()
+            , success : (data)=>{
+                if(data.result){
+                    console.log(data);
+                }else{
+                    openAlert('댓글 목록 오류',data.msg);
+                }
+            }
+            , error : (xhr,stat, err) =>{
+                openAlert('댓글 목록 오류','댓글 목록을 가져오는 중 오류가 발생했습니다.');
+                console.log(err);
+            }
+        })
+    }
+</script>
+{{ include('footer.html') }}
