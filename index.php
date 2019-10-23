@@ -29,11 +29,13 @@ $router->add('join'     , ['controller' => 'Main', 'action' => 'join']);
 $router->add('login'    , ['controller' => 'Main', 'action' => 'login']);
 
 // 포스트
-$router->add('recent'          , ['controller' => 'Post', 'action' => 'recent']);
+$router->add('portfolio'       , ['controller' => 'Post', 'action' => 'portfolio']);
 $router->add('write'           , ['controller' => 'Post', 'action' => 'write']);
+$router->add('savePost'        , ['controller' => 'Post', 'action' => 'savePost']);
 $router->add('uploadImage'     , ['controller' => 'Post', 'action' => 'uploadImage']);
+$router->add('view'            , ['controller' => 'Post', 'action' => 'view']);
+$router->add('saveComment'     , ['controller' => 'Post', 'action' => 'saveComment']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
-
 ?>
 

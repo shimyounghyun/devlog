@@ -118,7 +118,7 @@
                 // 이메일주소 형식 체크 정규식
                 let regExpEm = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
                 if(!regExpEm.test($("#email").val().trim())){
-                    alert("이메일을 형식이 아닙니다.");
+                    openAlert("유효하지 않은 이메일 형식","이메일을 형식이 아닙니다.");
                     $("#email").focus();
                     return false;
                 }
@@ -132,7 +132,7 @@
                         if(data.result){
                             sendEmail(data.code);
                         }else{
-                            alert(data.msg);
+                            openAlert("이메일 전송 완료",data.msg);
                             console.log(data);
                         }
                     }
@@ -161,7 +161,7 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         // 성공
                         pageLodingOff();
-                        alert("메일이 전송되었습니다. \n메일 확인 후 회원가입이 진행됩니다.");
+                        openAlert("메일 전송 완료","메일이 전송되었습니다. \n메일 확인 후 회원가입이 진행됩니다.");
                     }else{
                         console.log(xhr.responseText);
                     }
@@ -180,7 +180,7 @@
                 for (let i = 0; i < forms.length; i++) {
                     forms[i].addEventListener("submit", handleFormSubmit, false);
                 }
-            };
+            }
             document.addEventListener("DOMContentLoaded", loaded, false);
 
             function disableAllButtons(form) {

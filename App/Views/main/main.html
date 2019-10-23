@@ -30,13 +30,13 @@
     function login() {
         if(!$("#user_id").val().trim()){
             $("#user_id").focus();
-            alert("아이디를 입력해주세요.");
+            openAlert("아이디 입력","아이디를 입력해주세요.");
             return;
         }
 
         if(!$("#user_pw").val().trim()){
             $("#user_pw").focus();
-            alert("비밀번호를 입력해주세요.");
+            openAlert("비밀번호 입력","비밀번호를 입력해주세요.");
             return;
         }
 
@@ -49,7 +49,7 @@
                 if(data.result){
                     location.href = '/recent';
                 }else{
-                    alert(data.msg);
+                    openAlert("회원 정보 없음",data.msg);
                 }
             }
             ,error : (xhr,stat, err) =>{

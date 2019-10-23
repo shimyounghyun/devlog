@@ -8,7 +8,7 @@
         <div class="user-button">
             <div class="thumbnail">
                 <!-- 유저 썸네일이 있는지 확인 -->
-                {% if session.USER.thumbnail is empty %}
+                {% if session.USER.USER_THUMBNAIL is empty %}
                     {% set thumb = constant('_BASIC_THUMB')%}
                 {% else%}
                     {% set thumb = session.USER.thumbnail %}

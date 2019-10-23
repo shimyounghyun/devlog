@@ -25,7 +25,7 @@
     <div class="write-header">
         <svg onclick="history.back();" fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" class="back-icon" style="vertical-align: middle;"><g><path d="m33.4 18.4v3.2h-20.4l9.3 9.4-2.3 2.4-13.4-13.4 13.4-13.4 2.3 2.4-9.3 9.4h20.4z"></path></g></svg>
         <div class="title">
-            <input placeholder="제목을 입력해주세요">
+            <input placeholder="제목을 입력해주세요" id="input_title">
         </div>
         <div class="btn-group">
             <button class="upload-image" type="button" onclick="uploadFile();"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m26.3 17.5c-2.1 0-3.8-1.7-3.8-3.7s1.7-3.8 3.8-3.8 3.7 1.7 3.7 3.8-1.7 3.7-3.7 3.7z m6.5-12.5c1.3 0 2.2 0.9 2.2 2.2v25.6c0 1.3-0.9 2.2-2.2 2.2h-30.6c-1.3 0-2.2-0.9-2.2-2.2v-25.6c0-1.3 0.9-2.2 2.2-2.2h30.6z m-8 15.5l7.7 8.3v-20.4c0-0.5-0.5-0.9-1-0.9h-28c-0.5 0-0.9 0.4-1 0.9v20.4l9.8-11.9c0.4-0.3 0.8-0.6 1.4-0.6s1 0.1 1.3 0.5l4.2 4.6 0.3 0.3c0.3 0.2 0.6 0.3 0.9 0.3s0.6-0.1 0.9-0.4l1.4-1.2c0.3-0.2 0.7-0.4 1.1-0.4s0.7 0.2 1 0.5z"></path></g></svg>
@@ -39,11 +39,12 @@
     </div>
 
     <form id="write_frm">
+        <input type="hidden" name="post_title" id="post_title">
         <input type="hidden" name="tag" id="tag">
         <input type="hidden" name="request_type" id="request_type">
         <input type="hidden" name="post_seq" id="post_seq">
         <input type="hidden" name="series_id" id="series_id">
-        <input type="hidden" name="post_visible" vlaue="true">
+        <input type="hidden" name="post_visible" id="post_visible" vlaue="true">
         <textarea name="post_content" id="post_content" style="display:none;"></textarea>
     <div class="code-content">
         <div class="SubmitBox disappear">
@@ -118,18 +119,19 @@
                     <div class="between">
                         <div class="visibility-select">
                             <div class="WriteVisibilitySelect">
-                                <div class="item active"><div class="item-content">
-                                    <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m19.8 3.8c8.9 0 16.2 7.2 16.2 16.2s-7.3 16.3-16.2 16.3-16.3-7.3-16.3-16.3 7.3-16.2 16.3-16.2z m-1.8 30c0.5-1.1 1.7-2.2 0.7-3-0.7-0.6-1.3-1.1-1.8-1.7-0.2-0.1-0.9-1.5-0.7-1.8 0.3-0.7 0.4-1 0.6-1.8 0.2-1-0.3-1.3-1-1.8-1.2-0.7-2.3-1.7-3.4-2.6-0.5-0.4-1.3-0.8-1.6-1.5s-0.3-1.6-0.7-2.2c-1.1-1.5-1-2.6-0.8-4.5 0-0.6-0.1-1.3-0.2-2-2.2 2.5-3.3 5.7-3.3 9.1 0 3.8 1.5 7.2 4.1 9.8 2.3 2.3 5.1 3.6 8.1 4z m11.6-4c1.8-1.8 3-3.9 3.7-6.4-0.7 0.1-1.5-0.1-1.5-0.1s-1.7-1.9-1.8-3.5c-0.2-1.8 0-3.1-0.2-4.5-0.3-1.2-1.6-2.4-2.2-3.6-0.5-1.1-1-2.2-1.5-3.3 0.1 0.1 0.4 0.2 0.5 0.3 0.4-0.1 0.8-0.2 1.1-0.2-1.8-1.2-3.8-1.9-5.9-2.3v0.7l0.3 0.7-1.1 1-0.7-0.2-0.8-0.8-0.8-1-1.1-0.4c-1.2 0.2-2.4 0.6-3.5 1.1v0.5c0.6-0.2 1.3-0.4 1.8-0.6 0.3-0.1 1 0.5 1.3 0.7-0.3 0.4-1.7 1.2-1.7 1.6 0 0.2 0.5 0.5 0.5 0.8 0 0.5-0.1 0.9-0.1 1.3 0.3-0.2 1.6-1.6 1.7-1.6 1.1-0.2 2.8 1.5 2.9 2s-1.7 1.9-2.5 2.7c-0.7 0.6-2 0.9-1.6 1.9 0.2 0.3 0.8 1.5 0.4 1.8-0.5 0.4-1.1-0.7-1.3-0.9-0.7-0.8-2.1-0.5-3-0.5 0 1.3-0.1 2.4 1.2 3.3 1.1 0.9 2.3 2 3.6 2.6 1 0.5 2.8-0.6 3.7 0.1 1.3 0.8 2.3 1.6 3.7 2.2 0.6 0.3 2.6 1.6 2 2.5-0.4 0.6-0.8 1.1-1.1 1.8s-1 1.5-1.5 1.9c-0.7 0.5-1.3 1.3-1.7 2.3 2.7-0.6 5.2-1.8 7.2-3.9z"></path></g></svg>
+                                <div class="item active" id="visible_all">
+                                    <div class="item-content">
+                                        <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m19.8 3.8c8.9 0 16.2 7.2 16.2 16.2s-7.3 16.3-16.2 16.3-16.3-7.3-16.3-16.3 7.3-16.2 16.3-16.2z m-1.8 30c0.5-1.1 1.7-2.2 0.7-3-0.7-0.6-1.3-1.1-1.8-1.7-0.2-0.1-0.9-1.5-0.7-1.8 0.3-0.7 0.4-1 0.6-1.8 0.2-1-0.3-1.3-1-1.8-1.2-0.7-2.3-1.7-3.4-2.6-0.5-0.4-1.3-0.8-1.6-1.5s-0.3-1.6-0.7-2.2c-1.1-1.5-1-2.6-0.8-4.5 0-0.6-0.1-1.3-0.2-2-2.2 2.5-3.3 5.7-3.3 9.1 0 3.8 1.5 7.2 4.1 9.8 2.3 2.3 5.1 3.6 8.1 4z m11.6-4c1.8-1.8 3-3.9 3.7-6.4-0.7 0.1-1.5-0.1-1.5-0.1s-1.7-1.9-1.8-3.5c-0.2-1.8 0-3.1-0.2-4.5-0.3-1.2-1.6-2.4-2.2-3.6-0.5-1.1-1-2.2-1.5-3.3 0.1 0.1 0.4 0.2 0.5 0.3 0.4-0.1 0.8-0.2 1.1-0.2-1.8-1.2-3.8-1.9-5.9-2.3v0.7l0.3 0.7-1.1 1-0.7-0.2-0.8-0.8-0.8-1-1.1-0.4c-1.2 0.2-2.4 0.6-3.5 1.1v0.5c0.6-0.2 1.3-0.4 1.8-0.6 0.3-0.1 1 0.5 1.3 0.7-0.3 0.4-1.7 1.2-1.7 1.6 0 0.2 0.5 0.5 0.5 0.8 0 0.5-0.1 0.9-0.1 1.3 0.3-0.2 1.6-1.6 1.7-1.6 1.1-0.2 2.8 1.5 2.9 2s-1.7 1.9-2.5 2.7c-0.7 0.6-2 0.9-1.6 1.9 0.2 0.3 0.8 1.5 0.4 1.8-0.5 0.4-1.1-0.7-1.3-0.9-0.7-0.8-2.1-0.5-3-0.5 0 1.3-0.1 2.4 1.2 3.3 1.1 0.9 2.3 2 3.6 2.6 1 0.5 2.8-0.6 3.7 0.1 1.3 0.8 2.3 1.6 3.7 2.2 0.6 0.3 2.6 1.6 2 2.5-0.4 0.6-0.8 1.1-1.1 1.8s-1 1.5-1.5 1.9c-0.7 0.5-1.3 1.3-1.7 2.3 2.7-0.6 5.2-1.8 7.2-3.9z"></path></g></svg>
                                     전체 공개
                                 </div>
                                 </div>
-                                <div class="item">
+                                <div class="item" id="visible_private">
                                     <div class="item-content">
                                         <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m25.2 13.4v-3.4c0-2.8-2.4-5.2-5.2-5.2s-5.2 2.4-5.2 5.2v3.4h10.4z m-5.2 15c1.8 0 3.4-1.6 3.4-3.4s-1.6-3.4-3.4-3.4-3.4 1.6-3.4 3.4 1.6 3.4 3.4 3.4z m10-15c1.8 0 3.4 1.4 3.4 3.2v16.8c0 1.8-1.6 3.2-3.4 3.2h-20c-1.8 0-3.4-1.4-3.4-3.2v-16.8c0-1.8 1.6-3.2 3.4-3.2h1.6v-3.4c0-4.6 3.8-8.4 8.4-8.4s8.4 3.8 8.4 8.4v3.4h1.6z"></path></g></svg>
                                         나만 보기
                                     </div>
                                 </div>
-                                <div class="active-slider">
+                                <div class="active-slider" id="slider">
 
                                 </div>
                             </div>
@@ -168,17 +170,37 @@
 </form>
 
 <script>
+    // 태그 목록
+    const tag = [];
+
     $(document).ready(()=>{
         $("#add_tag_btn").on('click',()=>{
             addTag();
         });
-    })
+
+        // 전체 공개 클릭
+        $("#visible_all").on('click',()=>{
+            $("#visible_private").removeClass('active');
+            $("#visible_all").addClass('active');
+            $("#slider").removeClass('right');
+        });
+
+        //나만 보기 클릭
+        $("#visible_private").on('click',()=>{
+            $("#visible_all").removeClass('active');
+            $("#visible_private").addClass('active');
+            $("#slider").addClass('right');
+        })
+    });
 
     //글 저장
     function savePost() {
         let save_type = $("#post_seq").val() ? 'PUT' : 'POST';
         $("#request_type").val(save_type);
         $("#post_content").val(editor.getValue());
+        $("#tag").val(tag.join(','));
+        $("#post_title").val($("#input_title").val());
+        $("#post_visible").val($(".item.active").attr('id') == 'visible_private' ? false : true);
         let form = $("#write_frm")[0];
         let form_data = new FormData(form);
 
@@ -191,7 +213,7 @@
             ,data : form_data
             ,dataType :"json"
             ,success : (data) =>{
-
+                console.log(data.msg);
             }
             ,error : (xhr,stat, err) =>{
                 console.log(err);
@@ -230,7 +252,6 @@
         $("#thumbnail_section").hide();
     }
 
-    const tag = [];
     function addTag(){
         let tagText = $("#tag_text").val().trim();
 
@@ -249,7 +270,7 @@
         tag.push(tagText);
 
         //템플릿 가져오기
-        let id = (new Date()).getUTCMilliseconds()
+        let id = (new Date()).getUTCMilliseconds();
         let template = document.getElementById("tag_temp").outerHTML;
         template = template.replace("TAG", tagText).replace("tag_temp",id).replace("remove_tag",tagText+"_"+id);
 
@@ -289,7 +310,7 @@
     // 에디터 글자 입력 이벤트
     editor.on('change',(instance)=>{
         document.getElementById('preview').innerHTML = marked(instance.getValue());
-    })
+    });
 
     // 에디터 커서 위치 초기화
     editor.cursor = {line : 0, ch: 0, sticky: null};

@@ -1,0 +1,46 @@
+{{ include('header.html') }}
+
+<div style="margin-left: 18rem">
+{{ include('side.html') }}
+{{ include('top.html') }}
+    <div class="recent-section">
+        <div class="post-list">
+            {% for portfolio in portfolio_list %}
+            <div class="post-card">
+                <a href="/view?post={{portfolio.POST_SEQ}}" class="thumbnail-wrapper">
+                    <img src="{{portfolio.POST_THUMBNAIL}}" alt="{{portfolio.POST_TITLE}}">
+                    <div class="white-mask"></div>
+                </a>
+                <div class="card-content">
+                    <a class="user-thumbnail-wrapper">
+                        <!-- 유저 썸네일이 있는지 확인 -->
+                        {% if portfolio.USER_THUMBNAIL is empty %}
+                            {% set thumb = constant('_BASIC_THUMB')%}
+                        {% else%}
+                            {% set thumb = portfolio.USER_THUMBNAIL %}
+                        {% endif%}
+                        <img src="{{thumb}}" alt="{{portfolio.USER_ID}}">
+                    </a>
+                    <div class="content-head">
+                        <div class="between">
+                            <a class="username" href="#">{{portfolio.USER_ID}}</a>
+                        </div>
+                        <h3><a href="/view?post={{portfolio.POST_SEQ}}">{{portfolio.POST_TITLE}}</a></h3>
+                        <div class="subinfo">
+                            <span>{{portfolio.CREATE_DATE}}</span>
+                            <span>0개의 댓글</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        {{portfolio.POST_CONTENT}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{{ include('footer.html') }}
+
+
+

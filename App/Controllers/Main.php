@@ -2,10 +2,11 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Core\Controller;
 use Core\View;
 use mysql_xdevapi\Exception;
 
-class Main extends \Core\Controller {
+class Main extends Controller {
 
     /**
      * url : /
@@ -158,7 +159,14 @@ class Main extends \Core\Controller {
                 $user = new User(); // db 조회를 위한 모델 생성
                 $user->insertUser($_POST);
 
-                $result['result'] = true;
+                $login_user = $user->selectUser($_POST);
+                if(isset($login_user) && isset($login_user->USER_ID)){
+                    $_SESSION['USER'] = $login_user;
+                    $result['result'] = true;
+                }else{
+                    $result['false'] = true;
+                    $result['msg'] = "회원 등록에 실패했습니다.";
+                }
             }else{
                 $result['result'] = false;
                 $result['msg'] = "처리에 실패했습니다.";

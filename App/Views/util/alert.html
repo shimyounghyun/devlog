@@ -1,0 +1,121 @@
+<style>
+    .modal-backgroun{
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: #000;
+        opacity: 0.5;
+    }
+
+    .modal-body{
+        background: #fefefe;
+        left: calc(50% - 15rem);
+        top: 30%;
+        z-index: 1;
+        width:30rem;
+        position: fixed;
+        border-radius: 4px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 3px 6px rgba(0,0,0,.12), 0 3px 6px rgba(0,0,0,.1725)
+    }
+
+    .modal-title{
+        padding: .8rem;
+        font-weight: 500;
+        border-bottom: 1px solid #e9ecef;
+        font-size: .9rem;
+    }
+
+    .modal-content{
+        padding: .8rem;
+        min-height: 1.2rem;
+        font-size: .9rem;
+    }
+
+    .modal-btn{
+        display: flex;
+        justify-content: flex-end;
+        margin: .9rem;
+    }
+
+    .modal-btn button{
+        color:#fff;
+        border-radius: 2px;
+        line-height: .875rem;
+        font-size: .875rem;
+        padding-top: .8rem;
+        padding-bottom: .8rem;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        margin-left: .6rem;
+    }
+
+    .modal-btn .cacncel{
+        background:#495057;
+    }
+    .modal-btn .ok{
+        background: #885ef0;
+    }
+</style>
+<script>
+    function openAlert(title, content,func) {
+        let template = `
+        <div id="alert_template">
+            <div class="modal-backgroun"></div>
+            <div class="modal-body">
+                <div class="modal-title">
+                    ${title}
+                </div>
+                <div class="modal-content">
+                    ${content}
+                </div>
+                <div class="modal-btn">
+                    <button class="ok" onclick="${func ? func : 'closeAlert()'}" id="alert_ok">확인</button>
+                </div>
+            </div>
+        </div>
+        `;
+        $("html").append(template);
+        $("#alert_ok").focus();
+    }
+
+    function openConfirm(title, content) {
+        let template = `
+        <div id="alert_template">
+            <div class="modal-backgroun"></div>
+            <div class="modal-body">
+                <div class="modal-title">
+                    ${title}
+                </div>
+                <div class="modal-content">
+                    ${content}
+                </div>
+                <div class="modal-btn">
+                    <button class="cacncel" id="alert_cancel">취소</button>
+                    <button class="ok" id="alert_ok">확인</button>
+                </div>
+            </div>
+        </div>
+        `;
+        $("html").append(template);
+        $("#alert_ok").focus();
+        return new Promise((resolve, reject)=>{
+            $("#alert_cancel").on('click',()=>{
+                resolve();
+                closeAlert();
+            });
+            $("#alert_ok").on('click',()=>{
+                reject();
+                closeAlert();
+            });
+        });
+    }
+
+    function closeAlert(){
+        $("#alert_template").remove();
+    }
+</script>
