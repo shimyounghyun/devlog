@@ -55,9 +55,13 @@
                  FROM
                         USER
                  WHERE
-                        USER_ID ='{$form['user_id']}'
-                        AND USER_PW = PASSWORD('{$form['user_pw']}')
+                        USER_ID =:user_id
+                        AND USER_PW = PASSWORD(:user_pw)
                         AND USER_DELETE = FALSE";
+            $this->column = [
+              ':user_id'=>$form['user_id']
+              ,':user_pw'=>$form['user_pw']
+            ];
             return $this->fetch();
         }
     }

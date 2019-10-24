@@ -19,7 +19,7 @@ class Model
 
     //생성자
     function __construct(){
-        $dbConfig = parse_ini_file("db_config.ini");
+        $dbConfig = parse_ini_file("/usr/local/db_config.ini");
         $this->column = NULL;
         $this->db = new PDO(
             "mysql:host=127.0.0.1;dbname=".$dbConfig["db"].";"."charset=utf8"

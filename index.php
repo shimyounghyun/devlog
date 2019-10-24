@@ -35,6 +35,14 @@ $router->add('savePost'        , ['controller' => 'Post', 'action' => 'savePost'
 $router->add('uploadImage'     , ['controller' => 'Post', 'action' => 'uploadImage']);
 $router->add('view'            , ['controller' => 'Post', 'action' => 'view']);
 $router->add('saveComment'     , ['controller' => 'Post', 'action' => 'saveComment']);
+$router->add('getCommentList'  , ['controller' => 'Post', 'action' => 'getCommentList']);
+$router->add('deleteComment'   , ['controller' => 'Post', 'action' => 'deleteComment']);
+$router->add('updateComment'   , ['controller' => 'Post', 'action' => 'updateComment']);
+$router->add('getPortfolioList', ['controller' => 'Post', 'action' => 'getPortfolioList']);
+$router->add('deletePost'      , ['controller' => 'Post', 'action' => 'deletePost']);
+
+//프로필
+$router->add('profile'      , ['controller' => 'Profile', 'action' => 'profile']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
 ?>

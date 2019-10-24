@@ -52,7 +52,7 @@
     <div class="post-head"> <!-- 글 헤더-->
         <div class="horizon-user-info">
             <a class="user-thumbnail">
-                <img>
+                <img src="{{post.USER_THUMBNAIL is empty ? constant('_BASIC_THUMB') : post.USER_THUMBNAIL }}">
             </a>
             <div class="info">
                 <a class="username">{{post.USER_ID}}</a>
@@ -62,10 +62,12 @@
         <h1>{{post.POST_TITLE}}</h1>
         <div class="post-date">{{post.CREATE_DATE}}</div>
         <div class="separator"></div>
+        {% if post.USER_ID == session.USER.USER_ID %}
         <div class="post-action-btn">
-            <button type="button">수정</button>
-            <button type="button">삭제</button>
+            <button type="button" onclick="location.href='/write?post_num={{post.POST_SEQ}}'">수정</button>
+            <button type="button" onclick="deletePost('{{post.POST_SEQ}}')">삭제</button>
         </div>
+        {% endif %}
     </div> <!-- // 글 헤더-->
 
     <div class="post-content"> <!-- 글 내용 -->
@@ -81,11 +83,12 @@
         <textarea style="display: none;" id="comment_content" name="comment_content"></textarea>
         <input type="hidden" name="post_seq" value="{{post.POST_SEQ}}">
         <input type="hidden" name="page_num" id="page_num" value="0">
-        <input type="hidden" name="comment_parent" id="comment_parent" value="">
+        <input type="hidden" name="comment_origin" id="comment_origin" value="0">
+        <input type="hidden" name="comment_group" id="comment_group" value="">
     </form>
 
     <div class="post-comment"> <!-- 댓글 -->
-        <h3>{{comment_count}}개의 댓글</h3>
+        <h3 id="post_count">{{comment_count}}개의 댓글</h3>
         <div class="comment-input">
             <textarea id="comment_root"></textarea>
             <div class="comment-btn">
@@ -95,7 +98,15 @@
         <div class="comment-list">
             {% for item in comment_list %}
 
-            <div class="comment-block">
+            {% if item.COMMENT_LEVEL == 0%}
+                <div class="comment-block">
+            {% elseif item.COMMENT_LEVEL == 1%}
+                <div class="comment-block-level2">
+            {% elseif item.COMMENT_LEVEL == 2%}
+                <div class="comment-block-level3">
+            {% elseif item.COMMENT_LEVEL >= 3%}
+                <div class="comment-block-level4">
+            {% endif%}
                 <div class="comment-flex">
                     <div class="comment-block-head">
                         <!-- 유저 썸네일이 있는지 확인 -->
@@ -106,24 +117,35 @@
                         {% endif%}
                         <a><img src="{{thumb}}"></a>
                         <div class="text-block">
-                            <div class="username">{{item.USER_ID}}</div>
+                            <div class="username">{{item.COMMENT_DELETE == true ? '알 수 없음' : item.USER_ID}}</div>
                             <div class="date">{{item.CREATE_DATE}}</div>
                         </div>
                     </div>
                     <div class="comment-wrapper">
-                        <div class="comment-block-body">
-                            <div class="MarkdownRender">
-                                {{item.COMMENT_CONTENT}}
+
+                        <div class="comment-input" style="display: none;" id="comment_input_{{item.COMMENT_SEQ}}">
+                            <textarea id="comment_update_{{item.COMMENT_SEQ}}">{{item.COMMENT_CONTENT}}</textarea>
+                            <div class="comment-btn">
+                                <button type="button" onclick="updateComment('#comment_update_{{item.COMMENT_SEQ}}','{{item.COMMENT_SEQ}}')">댓글 작성</button>
+                                <button class="cancel" onclick="closeComment('{{item.COMMENT_SEQ}}')">취소</button>
                             </div>
                         </div>
-                        <div class="comment-block-btn">
-                            <button class="edit">수정</button>
-                            <button class="delete">삭제</button>
+
+                        <div class="comment-block-body" id="comment_body_{{item.COMMENT_SEQ}}">
+                            <div class="MarkdownRender">
+                                {{item.COMMENT_DELETE == true ? '삭제된 댓글 입니다.' : item.COMMENT_CONTENT }}
+                            </div>
                         </div>
+                        {% if session.USER.USER_ID == item.USER_ID and item.COMMENT_DELETE == false %}
+                        <div class="comment-block-btn" id="comment_btn_{{item.COMMENT_SEQ}}">
+                            <button class="edit" onclick="openComment('{{item.COMMENT_SEQ}}');">수정</button>
+                            <button class="delete" onclick="deleteComment('{{item.COMMENT_SEQ}}')">삭제</button>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div id="reply_{{item.COMMENT_SEQ}}_btn">
-                    <button class="comment-reply" onclick="reply('{{item.COMMENT_SEQ}}')">
+                    <button class="comment-reply" onclick="reply('{{item.COMMENT_SEQ}}','{{item.COMMENT_GROUP}}')">
                         <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
                         답글 달기
                     </button>
@@ -134,24 +156,44 @@
         </div>
         <div class="comment-page">
             <span class="inner-paging">
-                <a class="link_prev"><</a>
-                <a class="link_page"><span>1</span></a>
-                <a class="link_page"><span class="active">2</span></a>
-                <a class="link_page"><span>3</span></a>
-                <a class="link_page"><span>4</span></a>
-                <a class="link_page"><span>5</span></a>
-                <a class="link_page"><span>6</span></a>
-                <a class="link_page"><span>7</span></a>
-                <a class="link_page"><span>8</span></a>
-                <a class="link_page"><span>9</span></a>
-                <a class="link_page"><span>10</span></a>
-                <a class="link_next">></a>
+                {% if comment_count > 0 %}
+                    {% for i in 1 .. (comment_count-1)/10 + 1 %}
+                        <a class="link_page" href="javascript:void(0);" onclick="getCommentList('{{i}}')"><span {% if i == 1 %}class="active"{% endif %}>{{i}}</span></a>
+                    {% endfor %}
+                    {% if comment_count > 1%}
+                        <a class="link_next" href="javascript:void(0);" onclick="getCommentList(2)">></a>
+                    {% endif %}
+                {% endif %}
             </span>
         </div>
     </div> <!-- //댓글 -->
 </div><!-- //내용 -->
-
 <script>
+
+    //게시글 삭제
+    function deletePost(num){
+        openConfirm("게시글 삭제", "정말 삭제 하시겠습니까?").then(()=>{
+            pageLodingOn();
+            $.ajax({
+                url : '/deletePost'
+                ,data : {post_num : num}
+                ,dataType : 'json'
+                ,type : 'POST'
+                ,success : (data)=>{
+                    pageLodingOff();
+                    if(data.result){
+                        location.href='/portfolio';
+                    }
+                }
+                , error : (xhr,stat, err) =>{
+                    pageLodingOff();
+                    openAlert('게시글 삭제 오류','게시글 삭제 처리중 오류가 발생했습니다.');
+                    console.log(err);
+                }
+            })
+        }).catch(()=>{return;});
+    }
+
     // 메뉴 클릭 이벤트
     $(document).on('click',(e)=>{
 
@@ -174,8 +216,46 @@
         $("#markdown-render").html(marked($("#no_markdown_text").text()));
     });
 
+    function openComment(num) {
+        $("#comment_input_"+num).show();
+        $("#comment_body_"+num).hide();
+        $("#comment_btn_"+num).hide();
+    }
+
+    function closeComment(num) {
+        $("#comment_input_"+num).hide();
+        $("#comment_body_"+num).show();
+        $("#comment_btn_"+num).show();
+    }
+
+    // 댓글 삭제
+    function deleteComment(num){
+        openConfirm('댓글 삭제', '정말로 삭제 하시겠습니까?').then(
+            ()=>{
+                    $.ajax({
+                        url : '/deleteComment'
+                        ,data : {num : num}
+                        ,dataType : 'json'
+                        ,type : 'POST'
+                        ,success : (data)=>{
+                            if(data.result){
+                                getCommentList(1);
+                            }else{
+                                openAlert(data.msg);
+                            }
+                        }
+                        , error : (xhr,stat, err) =>{
+                            openAlert('댓글 삭제 오류','댓글 삭제 처리중 오류가 발생했습니다.');
+                            console.log(err);
+                        }
+                    })
+            }
+        ).catch(()=>{return;});
+    }
+
     // 답글 작성창 열기
-    function reply(num){
+    function reply(num,group){
+
         let template = `
         <button class="comment-reply" onclick="replyClose('${num}')">
             <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-18.6q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h18.6q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
@@ -185,7 +265,7 @@
             <div class="comment-input">
                 <textarea id="comment_root_${num}"></textarea>
                 <div class="comment-btn">
-                    <button type="button" onclick="sendComment('#comment_root_${num}','${num}')">댓글 작성</button>
+                    <button type="button" onclick="sendComment('#comment_root_${num}','${group}','${num}')">댓글 작성</button>
                     <button class="cancel">취소</button>
                 </div>
             </div>
@@ -208,13 +288,20 @@
     }
 
     //댓글 전송
-    function sendComment(text_id, parent_id) {
+    function sendComment(text_id, group_id, origin_id) {
         $("#comment_content").val($(text_id).val());
-        if(parent_id){
-            $("#comment_parent").val(parent_id);
+        if(group_id){
+            $("#comment_group").val(group_id);
         }else{
-            $("#comment_parent").val(0);
+            $("#comment_group").val(0);
         }
+
+        if(origin_id){
+            $("#comment_origin").val(origin_id);
+        }else{
+            $("#comment_origin").val(0);
+        }
+
 
         $.ajax({
             url : '/saveComment'
@@ -223,7 +310,7 @@
             , type : 'POST'
             , success : (data)=>{
                 if(data.result){
-                    getCommentList();
+                    getCommentList(1);
                 }else{
                     openAlert('댓글 등록 오류',data.msg);
                 }
@@ -243,15 +330,132 @@
             url : '/getCommentList'
             , type : 'POST'
             , data : $("#comment_frm").serialize()
+            , dataType : 'json'
             , success : (data)=>{
                 if(data.result){
-                    console.log(data);
+                    makeCommentList(data.comment_list, data.comment_count);
+                    makeCommentPaging($("#page_num").val(),data.comment_count);
                 }else{
                     openAlert('댓글 목록 오류',data.msg);
                 }
             }
             , error : (xhr,stat, err) =>{
                 openAlert('댓글 목록 오류','댓글 목록을 가져오는 중 오류가 발생했습니다.');
+                console.log(err);
+            }
+        })
+    }
+
+    // 댓글 페이징 생성
+    function makeCommentPaging(current_page, total_count) {
+        let page_total_count = 10;
+        let start_page_num = parseInt((current_page - 1) / page_total_count) * page_total_count + 1;
+        let end_page_num = (start_page_num + page_total_count - 1 ) > parseInt((total_count-1)/10) + 1 ? parseInt((total_count-1)/10) + 1 : (start_page_num + page_total_count - 1 );
+
+        let page_html = ``;
+        if(current_page > 1){
+            page_html += `<a class="link_prev" href="javascript:void(0);" onclick="getCommentList('${parseInt(current_page)-1}')"><</a>`;
+        }
+        for(let i = start_page_num; i <= end_page_num; i++){
+            page_html += `<a class="link_page" href="javascript:void(0);" onclick="getCommentList('${i}')">
+                            <span ${(()=>{
+                                            if(i == current_page){
+                                                return `class="active"`;
+                                            }
+                            })()}>${i}</span></a>`;
+        }
+
+        if(current_page < end_page_num){
+            page_html += `<a class="link_next" href="javascript:void(0);" onclick="getCommentList('${parseInt(current_page)+1}')">></a>`;
+        }
+
+        $(".inner-paging").html(page_html);
+    }
+
+    // 댓글 목록 만들기
+    function makeCommentList(comment_list, comment_count){
+        $("#post_count").text(comment_count+"개의 댓글");
+        let comment_html = '';
+        const comment = item => {
+            let template = `
+                ${(()=>{
+                if(item.COMMENT_LEVEL == 0){
+                    return `<div class="comment-block">`;
+                }else if(item.COMMENT_LEVEL == 1) {
+                    return `<div class="comment-block-level2">`;
+                }else if(item.COMMENT_LEVEL == 2) {
+                    return `<div class="comment-block-level3">`;
+                }else {
+                    return `<div class="comment-block-level4">`;
+                }
+                })()}
+                <div class="comment-flex">
+                    <div class="comment-block-head">
+                        <a><img src="${item.USER_THUMBNAIL ? item.USER_THUMBNAIL : "{{constant('_BASIC_THUMB')}}"}"></a>
+                        <div class="text-block">
+                            <div class="username">${item.COMMENT_DELETE == true ? '알 수 없음' : item.USER_ID}</div>
+                            <div class="date">${item.CREATE_DATE}</div>
+                        </div>
+                    </div>
+                    <div class="comment-wrapper">
+
+                        <div class="comment-input" style="display: none;" id="comment_input_${item.COMMENT_SEQ}">
+                            <textarea id="comment_update_${item.COMMENT_SEQ}">${item.COMMENT_CONTENT}</textarea>
+                            <div class="comment-btn">
+                                <button type="button" onclick="updateComment('#comment_update_${item.COMMENT_SEQ}','${item.COMMENT_SEQ}')">댓글 작성</button>
+                                <button class="cancel" onclick="closeComment('${item.COMMENT_SEQ}')">취소</button>
+                            </div>
+                        </div>
+
+                        <div class="comment-block-body" id="comment_body_${item.COMMENT_SEQ}">
+                            <div class="MarkdownRender">
+                                ${item.COMMENT_DELETE == true ? '삭제된 댓글입니다.' : item.COMMENT_CONTENT}
+                            </div>
+                        </div>
+                        ${(()=>{
+                            if(item.USER_ID == '{{session.USER.USER_ID}}' && item.COMMENT_DELETE == 0){
+                                    return `
+                                        <div class="comment-block-btn" id="comment_btn_${item.COMMENT_SEQ}">
+                                            <button class="edit" onclick="openComment(${item.COMMENT_SEQ})">수정</button>
+                                            <button class="delete" onclick="deleteComment(${item.COMMENT_SEQ})">삭제</button>
+                                        </div>`;
+                            }else{
+                                return ``;
+                            }
+                        })()}
+                    </div>
+                </div>
+                <div id="reply_${item.COMMENT_SEQ}_btn">
+                    <button class="comment-reply" onclick="reply('${item.COMMENT_SEQ}','${item.COMMENT_GROUP}')">
+                        <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
+                        답글 달기
+                    </button>
+                </div>
+            </div>
+        `;
+            comment_html += template;
+        };
+        R.forEach(comment, comment_list);
+        $(".comment-list").html(comment_html);
+    }
+
+    // 댓글 수정
+    function updateComment(text_id, origin_id) {
+        $("#comment_origin").val(origin_id);
+        $("#comment_content").val($(text_id).val());
+
+        $.ajax({
+            url : '/updateComment'
+            ,data : $("#comment_frm").serialize()
+            ,dataType : 'json'
+            ,type : 'POST'
+            ,success : (data)=>{
+                if(data.result){
+                    getCommentList(1);
+                }
+            }
+            , error : (xhr,stat, err) =>{
+                openAlert('댓글 수정 오류','댓글 수정 중 오류가 발생했습니다.');
                 console.log(err);
             }
         })

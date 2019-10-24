@@ -1010,6 +1010,29 @@ input {
     display: flex;
     flex-direction: column;
 }
+
+.comment-block-level2{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: 4rem;
+}
+
+.comment-block-level3{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8rem;
+}
+
+.comment-block-level4{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: 12rem;
+}
+
+
 .comment-flex{
     margin-top:1rem;
     padding: 1rem;
@@ -1059,7 +1082,7 @@ input {
     margin-left: .8em;
 }
 
-.comment-block + .comment-block{
+.comment-block:not(:first-child){
     border-top : 1px solid #e9ecef;
 }
 
@@ -1119,3 +1142,113 @@ button.cancel{
 .comment-wrapper{
     flex : 1 1;
 }
+
+.main{
+    width: 1024px;
+    margin: 0 auto;
+    /*margin-top: 4rem;*/
+    margin-bottom: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.user-head{
+    display: flex;
+}
+
+.user-head img{
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-info{
+    margin-left: 1rem;
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.top{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.user-info section{
+    min-height: 5rem;
+}
+
+.user-name{
+    margin-top: auto;
+    font-weight: 500;
+    color: #7950f2;
+    padding-bottom: .5rem;
+}
+
+.profile-content{
+    border-top: 1px solid #e9ecef;
+    padding-top: .5rem;
+}
+
+.profile-content h2{
+    color: #343a40;
+    font-size: 2.5rem;
+}
+
+.profile-content p{
+    margin-top: .75rem;
+    color: #495057;
+    line-height: 1.5em;
+    font-size: .875rem;
+    white-space: pre-wrap;
+}
+
+.user-content{
+    margin-top: 3rem;
+}
+
+.social-info{
+    margin-top : 1rem;
+}
+
+.social-info .icons{
+    margin-left: -2px;
+    color: #495057;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 2.5rem;
+}
+
+.icons a {
+    display : block;
+    cursor:pointer;
+}
+
+.other-links{
+    margin-top: 1rem;
+}
+
+.link-line{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.link-line svg{
+    color: #495057;
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
+
+.link-line a{
+    flex: 1 1;
+    min-width: 0;
+    color: #845ef7;
+    font-size: 1rem;
+}
+
+

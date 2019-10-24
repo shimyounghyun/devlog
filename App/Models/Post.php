@@ -5,6 +5,40 @@
     class Post extends Model{
 
         /**
+         * 게시물 총 개수를 반환한다.
+         */
+        function selectPostTotalCount($post_type){
+            $this->sql = "
+                SELECT
+                    COUNT(*) COUNT
+                FROM
+                    POST
+                WHERE
+                    POST_DELETE = FALSE
+                    AND POST_TYPE = '{$post_type}'
+            ";
+
+            return $this->query()->fetch()->COUNT;
+        }
+
+        function deletePost($post_seq){
+            $this->sql = "
+                UPDATE
+                    POST
+                SET
+                    POST_DELETE = TRUE
+                WHERE
+                    POST_SEQ = :post_seq
+            ";
+
+            $this->column = [
+              ':post_seq'=>$post_seq
+            ];
+
+            $this->query();
+        }
+
+        /**
          * 새글을 등록한다.
          * @param $form
          */
@@ -39,6 +73,28 @@
                 ,(string)$form['series_id']
                 ,(string)$form['tag']
             ];
+            $this->query();
+        }
+
+        function updatePost($form){
+            $this->sql = "
+                UPDATE
+                    POST
+                SET
+                    POST_TITLE = IFNULL(:post_title, POST_TITLE)
+                    ,POST_CONTENT = IFNULL(:post_content, POST_CONTENT)
+                    ,POST_THUMBNAIL = IFNULL(:post_thumbnail, POST_THUMBNAIL)
+                WHERE
+                    POST_SEQ = :post_seq                    
+            ";
+
+            $this->column = [
+                ':post_title'=>$form['post_title']
+                ,':post_content'=>$form['post_content']
+                ,':post_thumbnail'=>$form['post_thumbnail']
+                ,':post_seq'=>$form['post_seq']
+            ];
+
             $this->query();
         }
 
