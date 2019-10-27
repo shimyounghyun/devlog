@@ -1,0 +1,183 @@
+{{ include('header.html') }}
+
+<div class="main-top">
+    <a class="logo-area" href="/portfolio">Young hyun</a>
+    <div class="spacer"></div>
+    <div class="right">
+
+        {% if session.USER is empty %} <!-- 비로그인 -->
+        <button class="button outline" type="button" onclick="location.href='/'">로그인</button>
+        {% else %} <!-- 로그인 -->
+        <div class="user-button">
+            <div class="thumbnail">
+                <!-- 유저 썸네일이 있는지 확인 -->
+                {% if session.USER.USER_THUMBNAIL is empty %}
+                {% set thumb = constant('_BASIC_THUMB')%}
+                {% else%}
+                {% set thumb = session.USER.thumbnail %}
+                {% endif%}
+                <img src="{{thumb}}" style="height:48px; width:48px;">
+            </div>
+        </div>
+        <div class="user-menu-wrapper close">
+            <div class="menu-position">
+                <div class="menu-direction"></div>
+                <div class="user-menu">
+                    <div class="menu-profile">
+                        <a>{{session.USER.USER_NAME}}</a>
+                        <span class="menu-email">{{session.USER.USER_EMAIL}}</span>
+                    </div>
+                    <div class="menu-post">
+                        <a href="javascript:void(0);" onclick="location.href='/write'">새 글 작성</a>
+                        <a>임시 글 보기</a>
+                    </div>
+                    <div class="menu-post">
+                        <a href="javascript:void(0);" onclick="location.href='/'">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="search-area">
+    <div class="search-bar">
+        <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m35 33.2l-1.8 1.8-8.8-8.8c-2.1 1.6-4.7 2.6-7.5 2.6-6.6 0-11.9-5.4-11.9-11.9s5.3-11.9 11.9-11.9 11.9 5.3 11.9 11.9c0 2.8-1 5.4-2.6 7.4z m-25.6-8.7c2 2 4.7 3 7.5 3s5.4-1.1 7.5-3.1 3.1-4.7 3.1-7.5-1.1-5.5-3.1-7.5-4.7-3.1-7.5-3.1-5.5 1-7.5 3.1-3.1 4.7-3.1 7.5 1 5.5 3.1 7.6z"></path></g></svg>
+        <input placeholder="찾고싶은 검색어를 입력하세요." type="search" value="{{query is empty ? '' : query}}" id="search_input">
+    </div>
+    <div class="search-content">
+        {% if post_count is not empty %}
+        <div class="count">총 <b>{{post_count}}</b>개의 포스트를 찾았습니다.</div>
+        {% endif %}
+        {% for post in post_list %}
+        <div class="search-item">
+            <a class="search-user-info">
+                <img src="{{post.USER_THUMBNAIL}}" alt="thumbnail" onerror="this.src='{{constant('_BASIC_THUMB')}}'">
+                <div class="user-name">{{post.USER_ID}}</div>
+            </a>
+            <a href="javascript:void(0);" onclick="location.href='/view?post={{post.POST_SEQ}}'"><h3>{{post.POST_TITLE}}</h3></a>
+            <p>{{post.POST_CONTENT}}</p>
+            <div class="date">{{post.CREATE_DATE}}</div>
+        </div>
+        {% endfor %}
+        {% if post_count > 10 %}
+        <button class="more-btn" type="button" onclick="getMorePostList()">{{post_count - 10}}개의 검색결과 더보기</button>
+        {% endif %}
+    </div>
+</div>
+<script>
+    let search_total_count = '{{post_count is empty ? 0 : post_count}}';
+    let page_num = '{{post_count is empty ? 0 : 1}}';
+
+    // 메뉴 클릭 이벤트
+    $(document).on('click',(e)=>{
+
+        //썸네일 클릭시 메뉴창이 보임
+        if($(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('close');
+            $(".user-menu-wrapper").addClass('open');
+        }
+
+        //메뉴 외에 다른곳을 눌렀을때 창이 닫힘
+        if($(".user-menu-wrapper").hasClass('open') &&
+            !$(".user-menu-wrapper").has(e.target).length &&
+            !$(".thumbnail").has(e.target).length){
+            $(".user-menu-wrapper").removeClass('open');
+            $(".user-menu-wrapper").addClass('close');
+        }
+    });
+
+    $(document).ready(()=>{
+
+        // 검색어 입력
+        $("#search_input").on('keyup',function(){
+            let input_text = $("#search_input").val();
+            if(!input_text.trim()) return;
+            $.ajax({
+                url : "/postBySearchText"
+                ,data : {input_text : input_text, page_num : 0}
+                ,type : "POST"
+                ,dataType : "json"
+                ,success : function(data){
+                    if(data.result){
+                        search_total_count = data.post_count;
+                        page_num = 1;
+                        makeHtmlPostList(data.post_count, data.post_list);
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+                , error : (xhr,stat, err) =>{
+                    openAlert('검색 오류','게시글 검색 처리중 오류가 발생했습니다.');
+                    console.log(err);
+                }
+            });
+
+        });
+    })
+
+    function getMorePostList() {
+        let input_text = $("#search_input").val();
+        if(!input_text.trim()) return;
+        $.ajax({
+            url : "/postBySearchText"
+            ,data : {input_text : input_text, page_num : page_num}
+            ,type : "POST"
+            ,dataType : "json"
+            ,success : function(data){
+                if(data.result){
+                    page_num ++;
+                    makeAppendPostList(data.post_list);
+                }else{
+                    alert(data.msg);
+                }
+            }
+            , error : (xhr,stat, err) =>{
+                openAlert('검색 오류','게시글 검색 처리중 오류가 발생했습니다.');
+                console.log(err);
+            }
+        });
+    }
+
+    function makeHtmlPostList(post_count, post_list){
+        let post_html_list = makePostListByTemplate(post_list);
+        let more_btn = ``;
+        if(search_total_count > page_num * 10){
+            more_btn = `<button class="more-btn" type="button" onclick="getMorePostList()">${search_total_count - page_num *10 }개의 검색결과 더보기</button>`;
+        }
+        $(".search-content").html('<div class="count">총 <b>'+post_count+'</b>개의 포스트를 찾았습니다.</div>'+post_html_list+more_btn);
+    }
+
+    function makeAppendPostList(post_list){
+        $(".more-btn").remove();
+        let post_html_list = makePostListByTemplate(post_list);
+        let more_btn = ``;
+        if(search_total_count > page_num * 10){
+            more_btn = `<button class="more-btn" type="button" onclick="getMorePostList()">${search_total_count - page_num *10 }개의 검색결과 더보기</button>`;
+        }
+        $(".search-content").append(post_html_list+more_btn);
+    }
+
+    function makePostListByTemplate(post_list){
+        let post_html = ``;
+        const post = post =>{
+            let template = `
+                <div class="search-item">
+                    <a class="search-user-info">
+                        <img src="${post.USER_THUMBNAIL}" alt="thumbnail" onerror="this.src='{{constant('_BASIC_THUMB')}}'">
+                        <div class="user-name">${post.USER_ID}</div>
+                    </a>
+                    <a href="javascript:void(0);" onclick="location.href='/view?post=${post.POST_SEQ}'"><h3>${post.POST_TITLE}</h3></a>
+                    <p>${post.POST_CONTENT}</p>
+                    <div class="date">${post.CREATE_DATE}</div>
+                </div>
+            `;
+            post_html += template;
+        }
+        R.forEach(post, post_list);
+        return post_html;
+    }
+
+</script>
+{{ include('footer.html') }}

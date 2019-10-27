@@ -1177,6 +1177,11 @@ button.cancel{
     flex-direction: column;
 }
 
+.top-wrapper {
+    display: flex;
+    margin-top: auto;
+}
+
 .user-info section{
     min-height: 5rem;
 }
@@ -1186,6 +1191,7 @@ button.cancel{
     font-weight: 500;
     color: #7950f2;
     padding-bottom: .5rem;
+    flex : 1 1;
 }
 
 .profile-content{
@@ -1251,4 +1257,229 @@ button.cancel{
     font-size: 1rem;
 }
 
+.profile-btn svg{
+    font-size: 2rem;
+    margin-bottom : .5rem;
+}
 
+.profile-btn a {
+    font-size: 1.5rem;
+}
+
+.text-input textarea{
+    height: auto;
+    width:100%;
+    min-height: 15rem;
+    padding: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+}
+
+.text-input .button-wrapper{
+    margin-top: 1rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.button-wrapper button{
+    background: #845ef7;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    padding: .5rem .875rem;
+}
+
+.other-post{
+    z-index: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    background: #f8f9fa;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.other-post .wrapper{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 768px;
+    margin: 0 auto;
+}
+
+.other-post .wrapper h3{
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.other-post-item{
+    padding: 1.5rem;
+    border: 1px solid #e9ecef;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.other-post-item .title{
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.other-post-item .date{
+    color: #495057;
+    font-size: .75rem;
+    margin-bottom: .5rem;
+}
+
+.other-post-item p{
+    margin-top: 1rem;
+    margin-bottom: 0;
+    color: #343a40;
+    font-size: .875rem;
+}
+
+.other-post-item.active{
+    border: 1px solid #7950f2;
+    color: #7950f2;
+}
+
+.search-area{
+    width: 768px;
+    margin: 0 auto;
+    margin-top: 4rem;
+}
+
+.search-bar{
+    border-radius: 30px;
+    border: 1px solid #f54;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    color: #f54;
+    padding-left: 1rem;
+    padding-right: .5rem;
+}
+.search-bar svg{
+    font-size: 2rem;
+}
+.search-bar input{
+    min-width: 0;
+    color: inherit;
+    background: none;
+    outline: none;
+    border: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    flex: 1 1;
+}
+
+.search-content{
+    margin-top: 3rem;
+    margin-bottom: 9rem;
+}
+
+.search-content .count{
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+}
+
+.search-content .count b{
+    color: #212529;
+}
+
+.search-item{
+    color: #212529;
+    -webkit-animation: searchResultItemAppear .15s ease-in-out;
+    animation: searchResultItemAppear .15s ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.search-item + .search-item{
+    border-top: 1px solid #e9ecef;
+    margin-top: 2rem;
+    padding-top: 2rem;
+}
+
+.search-user-info{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.search-user-info img{
+    width: 3rem;
+    height: 3rem;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 1.5rem;
+    -webkit-box-shadow: 0 0 8px rgba(0,0,0,.2);
+    box-shadow: 0 0 8px rgba(0,0,0,.2);
+}
+
+.search-user-info .user-name{
+    margin-left: 1rem;
+    font-weight: 600;
+    font-size: .875rem;
+    color: inherit;
+}
+
+.search-item h3{
+    font-size: 1.75rem;
+    margin-top: 1rem;
+}
+
+.search-item p{
+    margin-top: .5rem;
+    font-size: 1.125rem;
+    line-height: 1.25;
+    color: #343a40;
+}
+
+.search-item .date{
+    margin-top: .75rem;
+}
+
+.search-content .more-btn{
+    margin-top: 3rem;
+    color: #f54;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    overflow: visible;
+    background: transparent;
+    text-align: inherit;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+
+    font-weight: 600;
+    cursor: pointer;
+}

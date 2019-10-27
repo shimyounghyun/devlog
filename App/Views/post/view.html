@@ -89,12 +89,14 @@
 
     <div class="post-comment"> <!-- 댓글 -->
         <h3 id="post_count">{{comment_count}}개의 댓글</h3>
+        {% if session.USER is not empty %}
         <div class="comment-input">
             <textarea id="comment_root"></textarea>
             <div class="comment-btn">
                 <button type="button" onclick="sendComment('#comment_root')">댓글 작성</button>
             </div>
         </div>
+        {% endif %}
         <div class="comment-list">
             {% for item in comment_list %}
 
@@ -144,12 +146,14 @@
                         {% endif %}
                     </div>
                 </div>
+                    {% if session.USER is not empty %}
                 <div id="reply_{{item.COMMENT_SEQ}}_btn">
                     <button class="comment-reply" onclick="reply('{{item.COMMENT_SEQ}}','{{item.COMMENT_GROUP}}')">
                         <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
                         답글 달기
                     </button>
                 </div>
+                    {% endif %}
             </div>
 
             {% endfor %}
@@ -168,6 +172,21 @@
         </div>
     </div> <!-- //댓글 -->
 </div><!-- //내용 -->
+<div class="other-post"><!-- 작성자의 다른 게시물 -->
+    <div class="wrapper">
+        <h3>다른 포스트 보기</h3>
+        {% for item in other_post_list %}
+
+        <div class="other-post-item {% if item.POST_SEQ == post.POST_SEQ%}active{% endif %}"
+        {% if item.POST_SEQ != post.POST_SEQ %}onclick="location.href='/view?post={{item.POST_SEQ}}'"{% endif %}>
+            <div class="date">{{item.CREATE_DATE}}</div>
+            <div class="title">{{item.POST_TITLE}}</div>
+            <p>{{item.POST_CONTENT}}</p>
+        </div>
+
+        {% endfor %}
+    </div>
+</div><!-- //작성자의 다른 게시물-->
 <script>
 
     //게시글 삭제
@@ -425,12 +444,14 @@
                         })()}
                     </div>
                 </div>
+                {% if session.USER is not empty %}
                 <div id="reply_${item.COMMENT_SEQ}_btn">
                     <button class="comment-reply" onclick="reply('${item.COMMENT_SEQ}','${item.COMMENT_GROUP}')">
                         <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m30.2 17.9v1.4q0 0.3-0.2 0.5t-0.5 0.2h-7.9v7.9q0 0.3-0.2 0.5t-0.5 0.2h-1.4q-0.3 0-0.5-0.2t-0.2-0.5v-7.9h-7.9q-0.3 0-0.5-0.2t-0.2-0.5v-1.4q0-0.4 0.2-0.6t0.5-0.2h7.9v-7.8q0-0.3 0.2-0.5t0.5-0.2h1.4q0.3 0 0.5 0.2t0.2 0.5v7.8h7.9q0.3 0 0.5 0.2t0.2 0.6z m2.9 10v-18.6q0-1.5-1.1-2.5t-2.5-1.1h-18.6q-1.4 0-2.5 1.1t-1 2.5v18.6q0 1.4 1 2.5t2.5 1h18.6q1.5 0 2.5-1t1.1-2.5z m2.8-18.6v18.6q0 2.6-1.9 4.5t-4.5 1.9h-18.6q-2.6 0-4.5-1.9t-1.9-4.5v-18.6q0-2.7 1.9-4.6t4.5-1.8h18.6q2.7 0 4.5 1.8t1.9 4.6z"></path></g></svg>
                         답글 달기
                     </button>
                 </div>
+                {% endif %}
             </div>
         `;
             comment_html += template;

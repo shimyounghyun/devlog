@@ -18,15 +18,17 @@ require _ROOT . '/vendor/autoload.php';
 $router = new Core\Router();
 // Add the routes
 
-// 로그인
-$router->add(''         , ['controller' => 'Main', 'action' => 'basic']);
-$router->add('email'    , ['controller' => 'Main', 'action' => 'email']);
-$router->add('policy'   , ['controller' => 'Main', 'action' => 'policy']);
-$router->add('auth'     , ['controller' => 'Main', 'action' => 'auth']);
-$router->add('regist'   , ['controller' => 'Main', 'action' => 'regist']);
-$router->add('idCheck'  , ['controller' => 'Main', 'action' => 'idCheck']);
-$router->add('join'     , ['controller' => 'Main', 'action' => 'join']);
-$router->add('login'    , ['controller' => 'Main', 'action' => 'login']);
+// 메인
+$router->add(''              , ['controller' => 'Main', 'action' => 'basic']);
+$router->add('email'         , ['controller' => 'Main', 'action' => 'email']);
+$router->add('policy'        , ['controller' => 'Main', 'action' => 'policy']);
+$router->add('auth'          , ['controller' => 'Main', 'action' => 'auth']);
+$router->add('regist'        , ['controller' => 'Main', 'action' => 'regist']);
+$router->add('idCheck'       , ['controller' => 'Main', 'action' => 'idCheck']);
+$router->add('join'          , ['controller' => 'Main', 'action' => 'join']);
+$router->add('login'         , ['controller' => 'Main', 'action' => 'login']);
+$router->add('search'        , ['controller' => 'Main', 'action' => 'search']);
+$router->add('postBySearchText'   , ['controller' => 'Main', 'action' => 'postBySearchText']);
 
 // 포스트
 $router->add('portfolio'       , ['controller' => 'Post', 'action' => 'portfolio']);
@@ -42,7 +44,8 @@ $router->add('getPortfolioList', ['controller' => 'Post', 'action' => 'getPortfo
 $router->add('deletePost'      , ['controller' => 'Post', 'action' => 'deletePost']);
 
 //프로필
-$router->add('profile'      , ['controller' => 'Profile', 'action' => 'profile']);
+$router->add('profile'                , ['controller' => 'Profile', 'action' => 'profile']);
+$router->add('updateDescription'      , ['controller' => 'Profile', 'action' => 'updateDescription']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
 ?>

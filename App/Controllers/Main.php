@@ -18,6 +18,25 @@ class Main extends Controller {
     }
 
     /**
+     * url : /search
+     * 설명 : 검색 화면
+     */
+    function searchAction(){
+        $query = $this->get_params['query'];
+        $result = [];
+
+
+        if(isset($query)){
+            $post_model = new \App\Models\Post();
+            $result['query'] = addslashes($query);
+            $result['post_list'] = $post_model->selectSearchPostList(addslashes($query), 0);
+            $result['post_count'] = $post_model->selectSearchPostCount(addslashes($query));
+        }
+
+        View::renderTemplate("main/search.html",$result);
+    }
+
+    /**
      * url : /policy
      * 설명 : 회원가입 약관 동의 페이지
      */
@@ -31,6 +50,30 @@ class Main extends Controller {
      */
     function authAction(){
         View::renderTemplate("main/auth.html");
+    }
+
+    /**
+     * url : /postBySearchText
+     * 설명 : 문자열로 포스트 검색
+     */
+    function postBySearchTextAction(){
+        try{
+            $method = $_SERVER['REQUEST_METHOD'];
+            if($method == "POST"){
+                $post_model = new \App\Models\Post();
+                $text = $_POST['input_text'];
+                $page_num = $_POST['page_num'];
+
+                $result['result'] = true;
+                $result['post_list'] = $post_model->selectSearchPostList($text, $page_num);
+                $result['post_count'] = $post_model->selectSearchPostCount($text);
+            }
+        }catch(Exception $e){
+            $result['result'] = false;
+            $result['msg'] = "로그인 처리중 오류가 발생했습니다.";
+        }finally{
+            echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**

@@ -137,6 +137,8 @@
             $post_model = new PostModel(); // 게시물 db
             $comment_model = new Comment(); // 댓글 db
 
+            //쿠키 가져오기
+
             // 게시물 상세 정보
             $result_map["post"] = $post_model->selectPost($post_seq,0);
 
@@ -145,6 +147,9 @@
 
             // 댓글 1페이지 목록
             $result_map["comment_list"] = $comment_model->selectCommentList($post_seq,1);
+
+            // 다른 게시물 목록
+            $result_map["other_post_list"] = $post_model->selectOtherPost($post_seq);
 
             View::renderTemplate("post/view.html", $result_map);
         }

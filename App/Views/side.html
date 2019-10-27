@@ -20,5 +20,14 @@
         // 검색 포커스 이벤트
         $("#search_text").focus(()=>{$(".search-box").addClass("focus");});
         $("#search_text").blur(()=>{$(".search-box").removeClass("focus");});
+
+        //검색 엔터 키 이벤트
+        $("#search_text").keydown(function(key) {
+            if (key.keyCode == 13) {
+                let search_text = $("#search_text").val();
+                if(!search_text.trim()) return;
+                location.href='/search?query='+search_text;
+            }
+        });
     })
 </script>
