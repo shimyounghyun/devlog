@@ -47,6 +47,12 @@ $router->add('deletePost'      , ['controller' => 'Post', 'action' => 'deletePos
 $router->add('profile'                , ['controller' => 'Profile', 'action' => 'profile']);
 $router->add('updateDescription'      , ['controller' => 'Profile', 'action' => 'updateDescription']);
 
+//태그
+$router->add('tag'                     , ['controller' => 'Tag', 'action' => 'tag']);
+$router->add('tag/search/{tag:.*}'     , ['controller' => 'Tag', 'action' => 'postListByTag']);
+$router->add('tag/getPostList'         , ['controller' => 'Tag', 'action' => 'getPostList']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);
+
 ?>
 

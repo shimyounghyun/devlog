@@ -1,0 +1,20 @@
+{{ include('header.html') }}
+<div style="margin-left: 18rem">
+    {{ include('side.html') }}
+    {{ include('top.html') }}
+    <div class="tag-wrapper">
+        <div class="tag_tab">
+            <a href="javascript:void(0);" onclick="location.href='/tag?sort=count'" {{sort is empty or sort == "count" ? 'class="active"'}}>횟수순</a>
+            <a href="javascript:void(0);" onclick="location.href='/tag?sort=name'" {{sort == "name" ? 'class="active"'}}>이름순</a>
+        </div>
+        <div class="tag_list">
+            {% for tag in tag_list %}
+            <a class="tag_item" href="javascript:void(0);" onclick="location.href='/tag/search/{{tag.TAG_NAME}}'">
+                <div class="name">{{tag.TAG_NAME}}</div>
+                <div class="count">{{tag.COUNT}}</div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{{ include('footer.html') }}

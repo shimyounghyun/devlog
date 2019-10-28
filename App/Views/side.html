@@ -12,9 +12,14 @@
     <ul class="menu">
         <li class="menu-item {{menu_code == 0 ? 'on' : ''}}"><a href="javascript:void(0);" onclick="location.href='/profile'">프로필</a></li>
         <li class="menu-item {{menu_code == 1 ? 'on' : ''}}"><a href="javascript:void(0);" onclick="location.href='/portfolio'">포트 폴리오</a></li>
-        <li class="menu-item"><a>태그 목록</a></li>
+        <li class="menu-item {{menu_code == 2 ? 'on' : ''}}"><a href="javascript:void(0);" onclick="location.href='/tag'">태그 목록</a></li>
+        <li class="menu-item {{menu_code == 3 ? 'on' : ''}}"><a href="javascript:void(0);" onclick="location.href='/news'">뉴스</a></li>
     </ul>
 </div>
+
+<form action="/search" method="POST" id="search_frm">
+    <input type="hidden" name="query" value="" id="query">
+</form>
 <script>
     $(document).ready(function(){
         // 검색 포커스 이벤트
@@ -26,7 +31,8 @@
             if (key.keyCode == 13) {
                 let search_text = $("#search_text").val();
                 if(!search_text.trim()) return;
-                location.href='/search?query='+search_text;
+                $("#query").val(search_text);
+                $("#search_frm").submit();
             }
         });
     })

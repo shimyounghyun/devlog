@@ -28,7 +28,7 @@
                         <h3><a href="/view?post={{portfolio.POST_SEQ}}">{{portfolio.POST_TITLE}}</a></h3>
                         <div class="subinfo">
                             <span>{{portfolio.CREATE_DATE}}</span>
-                            <span>0개의 댓글</span>
+                            <span>{{portfolio.COMMENT_COUNT}}개의 댓글</span>
                         </div>
                     </div>
                     <div class="description">
@@ -64,7 +64,7 @@
                         if(data.result){
                             makePortfolioList(data.data);
                         }else if(data.msg){
-                            onpenAlert('오류',data.msg);
+                            openAlert('오류',data.msg);
                         }
                     }
                     , error : (xhr,stat, err) =>{
@@ -103,7 +103,7 @@
                             <h3><a href="/view?post=${portfolio.POST_SEQ}">${portfolio.POST_TITLE}</a></h3>
                             <div class="subinfo">
                                 <span>${portfolio.CREATE_DATE}</span>
-                                <span>0개의 댓글</span>
+                                <span>${portfolio.COMMENT_COUNT}개의 댓글</span>
                             </div>
                         </div>
                         <div class="description">

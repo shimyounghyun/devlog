@@ -1483,3 +1483,98 @@ button.cancel{
     font-weight: 600;
     cursor: pointer;
 }
+
+.tag-wrapper {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+}
+
+.tag_tab{
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #868e96;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.tag_tab a{
+    display: block;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid transparent;
+    -webkit-transition: all .125s ease-in;
+    -o-transition: all .125s ease-in;
+    transition: all .125s ease-in;
+}
+
+.tag_tab a.active{
+    font-weight: 600;
+    color: #f54;
+    border-bottom: 2px solid #f54;
+}
+
+.tag_tab a+a{
+    margin-left: 1rem;
+}
+
+.tag_list{
+    margin: -.375rem;
+    margin-top: 1.625rem;
+}
+
+.tag_item{
+    display: inline-flex;
+    padding: .5rem 1rem;
+    margin: .375rem;
+    background: #fff;
+    border: 1px solid #ced4da;
+    color: #343a40;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 1.0625rem;
+    cursor: pointer;
+}
+
+.tag_item .name{
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.tag_item .count{
+    margin-left: .5rem;
+    color: #868e96;
+    font-size: .625rem;
+}
+
+.tag-info{
+    margin-top: 1rem;
+}
+
+.tag-info a{
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #868e96;
+}
+
+.tag-info hr{
+    margin-top: 1rem;
+    border: none;
+    background: #ced4da;
+    height: 1px;
+    margin-bottom: 1rem;
+}
+
+.tag-info h2{
+    margin-top: 2rem;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #343a40;
+}
+
+.tag-info h2 span{
+    font-size: 1.25rem;
+    color: #495057;
+    font-weight: 300;
+}

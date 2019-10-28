@@ -5,6 +5,11 @@
 
     class Post extends Model{
 
+        /**
+         * 검색된 목록 개수 반환
+         * @param $text
+         * @return mixed
+         */
         function selectSearchPostCount($text){
             $text = '%'.$text.'%';
             $this->sql = "
@@ -202,6 +207,7 @@
                 ,(string)$form['tag']
             ];
             $this->query();
+            return $this->db->lastInsertId();
         }
 
         function updatePost($form){
@@ -239,16 +245,23 @@
                     ,USER_ID
                     ,ALL_VISIBLE
                     ,SERIES_ID
-                    ,TAG
                     ,DATE_FORMAT(CREATE_DATE, '%Y년 %m월 %d일') AS CREATE_DATE
-                    ,POST_SEQ
+                    ,P.POST_SEQ
+                    ,GROUP_CONCAT(T.TAG_NAME) TAG
                 FROM
-                    POST
+                    POST P
+                    LEFT OUTER JOIN TAG T ON P.POST_SEQ = T.POST_SEQ 
                 WHERE
                     POST_DELETE = FALSE
-                    AND POST_SEQ = '{$id}'
-                    AND POST_TYPE = '{$post_type}'
+                    AND P.POST_SEQ = :post_seq
+                    AND P.POST_TYPE = :post_type
+                    AND T.POST_SEQ = :post_seq
             ";
+
+            $this->column = [
+                ':post_seq'=>$id
+                ,':post_type'=>$post_type
+            ];
             return $this->fetch();
         }
 
@@ -269,6 +282,7 @@
                                 ,U.USER_THUMBNAIL
                                 ,TAG
                                 ,SERIES_ID
+                                ,(SELECT COUNT(*) FROM COMMENT WHERE POST_SEQ = P.POST_SEQ) AS COMMENT_COUNT
                             FROM
                                 POST P
                                 INNER JOIN USER U ON P.USER_ID = U.USER_ID

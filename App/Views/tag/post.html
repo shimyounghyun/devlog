@@ -1,0 +1,126 @@
+{{ include('header.html') }}
+<div style="margin-left: 18rem">
+    {{ include('side.html') }}
+    {{ include('top.html') }}
+    <div class="recent-section">
+        <div class="tag-info">
+            <a class="backwards-btn" href="/tag"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align: middle;"><g><path d="m33.2 18.4v3.2h-20.3l9.3 9.4-2.3 2.4-13.4-13.4 13.4-13.4 2.4 2.4-9.4 9.4h20.3z"></path></g></svg> 전체태그 보기</a>
+            <hr>
+            <h2>#{{post_tag}} <span>({{post_count}}개)</span></h2>
+        </div>
+        <div class="post-list">
+            {% for post in post_list %}
+            <div class="post-card">
+                <a href="/view?post={{post.POST_SEQ}}" class="thumbnail-wrapper">
+                    <img src="{{post.POST_THUMBNAIL}}" alt="{{post.POST_TITLE}}">
+                    <div class="white-mask"></div>
+                </a>
+                <div class="card-content">
+                    <a class="user-thumbnail-wrapper">
+                        <!-- 유저 썸네일이 있는지 확인 -->
+                        {% if post.USER_THUMBNAIL is empty %}
+                        {% set thumb = constant('_BASIC_THUMB')%}
+                        {% else%}
+                        {% set thumb = post.USER_THUMBNAIL %}
+                        {% endif%}
+                        <img src="{{thumb}}" alt="{{post.USER_ID}}">
+                    </a>
+                    <div class="content-head">
+                        <div class="between">
+                            <a class="username" href="#">{{post.USER_ID}}</a>
+                        </div>
+                        <h3><a href="/view?post={{post.POST_SEQ}}">{{post.POST_TITLE}}</a></h3>
+                        <div class="subinfo">
+                            <span>{{post.CREATE_DATE}}</span>
+                            <span>{{post.COMMENT_COUNT}}개의 댓글</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        {{post.POST_CONTENT}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // 페이징
+    $(document).ready(function() {
+        let win = $(window);
+        let page_num = 0;
+        let total_count = '{{post_count}}';
+
+        // Each time the user scrolls
+        win.scroll(function() {
+            let scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+            let scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
+            let contentH = $('.post-list').height(); //문서 전체 내용을 갖는 div의 높이
+            if(scrollT + scrollH +1 >= contentH && page_num * 12 < total_count) { // 스크롤바가 아래 쪽에 위치할 때
+                page_num ++;
+                $.ajax({
+                    url : '/tag/getPostList'
+                    ,data : {page_num : page_num, tag_name : "{{post_tag}}"}
+                    ,dataType : 'json'
+                    ,type : 'POST'
+                    ,success : (data)=>{
+                        if(data.result){
+                            makePostList(data.data);
+                        }else if(data.msg){
+                            openAlert('오류',data.msg);
+                        }
+                    }
+                    , error : (xhr,stat, err) =>{
+                        openAlert('오류 발생','목록을 가져오는 중 오류가 발생했습니다.');
+                        console.log(err);
+                    }
+                })
+            }
+        });
+    });
+
+
+    function makePostList(post_list){
+        let post_html = ``;
+        const post = post =>{
+            let template = `
+                <div class="post-card">
+                <a href="/view?post=${post.POST_SEQ}" class="thumbnail-wrapper">
+                    <img src="${post.POST_THUMBNAIL}" alt="${post.POST_TITLE}">
+                    <div class="white-mask"></div>
+                </a>
+                <div class="card-content">
+                    <a class="user-thumbnail-wrapper">
+                        <!-- 유저 썸네일이 있는지 확인 -->
+                        {% if post.USER_THUMBNAIL is empty %}
+                        {% set thumb = constant('_BASIC_THUMB')%}
+                        {% else%}
+                        {% set thumb = post.USER_THUMBNAIL %}
+                        {% endif%}
+                        <img src="{{thumb}}" alt="{{post.USER_ID}}">
+                    </a>
+                    <div class="content-head">
+                        <div class="between">
+                            <a class="username" href="#">${post.USER_ID}</a>
+                        </div>
+                        <h3><a href="/view?post=${post.POST_SEQ}">${post.POST_TITLE}</a></h3>
+                        <div class="subinfo">
+                            <span>${post.CREATE_DATE}</span>
+                            <span>${post.COMMENT_COUNT}개의 댓글</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        ${post.POST_CONTENT}
+                    </div>
+                </div>
+            </div>
+            `;
+            post_html += template;
+        }
+
+        R.forEach(post, post_list);
+        $(".post-list").append(post_html);
+    }
+</script>
+{{ include('footer.html') }}

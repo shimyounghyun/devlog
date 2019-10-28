@@ -257,6 +257,7 @@
                     $_REQUEST_TYPE = $_POST["request_type"];
 
                     $post_model = new PostModel(); //DB 저장시 사용
+                    $tag_model = new \App\Models\Tag();
 
                     //썸네일 저장
                     $file = $this->saveFile($_FILES['post_thumbnail']);
@@ -265,15 +266,36 @@
                     $_POST["post_thumbnail"] = $file["url"];
 
                     //게시글 DB 저장
-
-                    $result['result'] = true;
-
                     if(isset($_POST['post_seq']) && $_POST['post_seq'] != '' && $_POST['post_seq'] != 0){ //수정
+                        // 글 수정
                         $result['msg'] = $post_model->updatePost($_POST);
-                    }else{ //등록
-                        $result['msg'] = $post_model->insertPost($_POST);
+                        $post_seq = $_POST['post_seq'];
+
+                        // 태그 수정
+                        if(isset($_POST['tag']) && isset($post_seq)){
+                            $tag_model->deleteTag($post_seq);
+
+                            if(trim($_POST['tag']) != ''){
+                                $tag = explode(',',$_POST['tag']);
+                                foreach ($tag as $key=>$data){
+                                    $tag_model->insertTag($data,$post_seq);
+                                }
+                            }
+                        }
+                    }else{
+                        // 글 등록
+                        $post_seq = $post_model->insertPost($_POST);
+
+                        // 태그 등록
+                        if(isset($_POST['tag']) && isset($post_seq)){
+                            $tag = explode(',',$_POST['tag']);
+                            foreach ($tag as $key=>$data){
+                                $tag_model->insertTag($data,$post_seq);
+                            }
+                        }
                     }
 
+                    $result['result'] = true;
                 }
             }catch (Exception $e){
                 $result['result'] = false;
