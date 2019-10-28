@@ -7,14 +7,70 @@
 
     class Post extends Controller{
 
+        var $menu_code = 1;
+
         /**
          * url : /portfolio
          * 설명 : 최근 올라온 포스트 목록을 보여주는 화면
          */
         function portfolioAction(){
             $post = new PostModel();
-            $result["portfolio_list"] = $post->selectPortfolioList(0);;
+            $result["portfolio_list"] = $post->selectPortfolioList(0);
+            $result["portfolio_count"] = $post->selectPostTotalCount(0);
+            $result['menu_code'] = $this->menu_code;
             View::renderTemplate("post/portfolio.html",$result);
+        }
+
+        /**
+         * url : /deletePost
+         * 설명 : 게시글을 삭제한다.
+         */
+        function deletePostAction(){
+            try {
+                $method = $_SERVER['REQUEST_METHOD'];
+                if($method == "POST"){
+                    $post_seq = $_POST['post_num'];
+
+                    $post = new PostModel();
+                    $post->deletePost($post_seq);
+
+                    $result['result'] = true;
+                }
+            }catch (Exception $e){
+                $result['result'] = false;
+                $result['msg'] = "게시글 삭제 중 오류가 발생했습니다.";
+            }finally{
+                echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            }
+        }
+
+        /**
+         * url : /getPortfolioListAction
+         * 설명 : 포트폴리오 목록을 반환한다.
+         */
+        function getPortfolioListAction(){
+            try {
+                $method = $_SERVER['REQUEST_METHOD'];
+                if($method == "POST"){
+                    $index = $_POST['page_num'];
+
+                    $post = new PostModel();
+                    $total_count = $post->selectPostTotalCount(0);
+
+                    if($index * 12 > $total_count){
+                        $result['result'] = false;
+                        return;
+                    }
+
+                    $result['result'] = true;
+                    $result['data'] = $post->selectPortfolioList($index);
+                }
+            }catch (Exception $e){
+                $result['result'] = false;
+                $result['msg'] = "목록을 가져오는 중 오류가 발생했습니다.";
+            }finally{
+                echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            }
         }
 
         /**
@@ -27,7 +83,48 @@
                 echo "<script>alert('로그인 후 이용가능합니다.'); history.back();</script>";
                 return;
             }
-            View::renderTemplate("post/write.html");
+
+            $result= [];
+
+            // 수정 화면
+            if(isset($this->get_params['post_num'])){
+                $id = $this->get_params['post_num'];
+                $post_model = new PostModel();
+                $post = $post_model->selectPost($id,0);
+
+                //작성자 확인
+                if(!isset($post) || $post->USER_ID != $_SESSION['USER']->USER_ID){
+                    echo "<script>history.back();</script>";
+                    return;
+                }
+
+                $result['post'] = $post;
+            }
+
+            View::renderTemplate("post/write.html", $result);
+        }
+
+        /**
+         * url : /deleteComment
+         * 설명 : 댓글을 삭제 한다.
+         */
+        function deleteCommentAction(){
+            try {
+                $method = $_SERVER['REQUEST_METHOD'];
+                if($method == "POST"){
+                    $comment_model = new Comment(); // 댓글 db
+
+                    $comment_model->deleteComment($_POST['num']);
+
+
+                    $result['result'] = true;
+                }
+            }catch (Exception $e){
+                $result['result'] = false;
+                $result['msg'] = "댓글 삭제 처리중 오류가 발생했습니다.";
+            }finally{
+                echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            }
         }
 
         /**
@@ -40,6 +137,8 @@
             $post_model = new PostModel(); // 게시물 db
             $comment_model = new Comment(); // 댓글 db
 
+            //쿠키 가져오기
+
             // 게시물 상세 정보
             $result_map["post"] = $post_model->selectPost($post_seq,0);
 
@@ -48,6 +147,9 @@
 
             // 댓글 1페이지 목록
             $result_map["comment_list"] = $comment_model->selectCommentList($post_seq,1);
+
+            // 다른 게시물 목록
+            $result_map["other_post_list"] = $post_model->selectOtherPost($post_seq);
 
             View::renderTemplate("post/view.html", $result_map);
         }
@@ -71,6 +173,30 @@
             }catch (Exception $e){
                 $result['result'] = false;
                 $result['msg'] = "댓글 등록 처리중 오류가 발생했습니다.";
+            }finally{
+                echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            }
+        }
+
+        /**
+         * url : /updateComment
+         * 설명 : 댓글을 수정한다.
+         */
+        function updateCommentAction(){
+            try {
+                $method = $_SERVER['REQUEST_METHOD'];
+                if($method == "POST"){
+                    $comment_model = new Comment();
+
+                    //댓글 등록
+                    $comment_model->updateComment($_POST);
+
+                    $result['result'] = true;
+
+                }
+            }catch (Exception $e){
+                $result['result'] = false;
+                $result['msg'] = "댓글 수정 처리중 오류가 발생했습니다.";
             }finally{
                 echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
             }
@@ -103,7 +229,7 @@
                     }
 
                     // 댓글 총 개수 구하기
-                    $comment_total_count = $comment_model->selectCommentCount($post_seq)->COUNT;
+                    $comment_total_count = $comment_model->selectCommentCount($post_seq);
 
                     // 댓글 목록 가져오기
                     $comment_list = $comment_model->selectCommentList($post_seq, $page_num);
@@ -131,6 +257,7 @@
                     $_REQUEST_TYPE = $_POST["request_type"];
 
                     $post_model = new PostModel(); //DB 저장시 사용
+                    $tag_model = new \App\Models\Tag();
 
                     //썸네일 저장
                     $file = $this->saveFile($_FILES['post_thumbnail']);
@@ -139,9 +266,36 @@
                     $_POST["post_thumbnail"] = $file["url"];
 
                     //게시글 DB 저장
+                    if(isset($_POST['post_seq']) && $_POST['post_seq'] != '' && $_POST['post_seq'] != 0){ //수정
+                        // 글 수정
+                        $result['msg'] = $post_model->updatePost($_POST);
+                        $post_seq = $_POST['post_seq'];
+
+                        // 태그 수정
+                        if(isset($_POST['tag']) && isset($post_seq)){
+                            $tag_model->deleteTag($post_seq);
+
+                            if(trim($_POST['tag']) != ''){
+                                $tag = explode(',',$_POST['tag']);
+                                foreach ($tag as $key=>$data){
+                                    $tag_model->insertTag($data,$post_seq);
+                                }
+                            }
+                        }
+                    }else{
+                        // 글 등록
+                        $post_seq = $post_model->insertPost($_POST);
+
+                        // 태그 등록
+                        if(isset($_POST['tag']) && isset($post_seq)){
+                            $tag = explode(',',$_POST['tag']);
+                            foreach ($tag as $key=>$data){
+                                $tag_model->insertTag($data,$post_seq);
+                            }
+                        }
+                    }
 
                     $result['result'] = true;
-                    $result['msg'] = $post_model->insertPost($_POST);
                 }
             }catch (Exception $e){
                 $result['result'] = false;

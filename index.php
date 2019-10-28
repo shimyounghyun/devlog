@@ -18,15 +18,17 @@ require _ROOT . '/vendor/autoload.php';
 $router = new Core\Router();
 // Add the routes
 
-// 로그인
-$router->add(''         , ['controller' => 'Main', 'action' => 'basic']);
-$router->add('email'    , ['controller' => 'Main', 'action' => 'email']);
-$router->add('policy'   , ['controller' => 'Main', 'action' => 'policy']);
-$router->add('auth'     , ['controller' => 'Main', 'action' => 'auth']);
-$router->add('regist'   , ['controller' => 'Main', 'action' => 'regist']);
-$router->add('idCheck'  , ['controller' => 'Main', 'action' => 'idCheck']);
-$router->add('join'     , ['controller' => 'Main', 'action' => 'join']);
-$router->add('login'    , ['controller' => 'Main', 'action' => 'login']);
+// 메인
+$router->add(''              , ['controller' => 'Main', 'action' => 'basic']);
+$router->add('email'         , ['controller' => 'Main', 'action' => 'email']);
+$router->add('policy'        , ['controller' => 'Main', 'action' => 'policy']);
+$router->add('auth'          , ['controller' => 'Main', 'action' => 'auth']);
+$router->add('regist'        , ['controller' => 'Main', 'action' => 'regist']);
+$router->add('idCheck'       , ['controller' => 'Main', 'action' => 'idCheck']);
+$router->add('join'          , ['controller' => 'Main', 'action' => 'join']);
+$router->add('login'         , ['controller' => 'Main', 'action' => 'login']);
+$router->add('search'        , ['controller' => 'Main', 'action' => 'search']);
+$router->add('postBySearchText'   , ['controller' => 'Main', 'action' => 'postBySearchText']);
 
 // 포스트
 $router->add('portfolio'       , ['controller' => 'Post', 'action' => 'portfolio']);
@@ -35,7 +37,22 @@ $router->add('savePost'        , ['controller' => 'Post', 'action' => 'savePost'
 $router->add('uploadImage'     , ['controller' => 'Post', 'action' => 'uploadImage']);
 $router->add('view'            , ['controller' => 'Post', 'action' => 'view']);
 $router->add('saveComment'     , ['controller' => 'Post', 'action' => 'saveComment']);
+$router->add('getCommentList'  , ['controller' => 'Post', 'action' => 'getCommentList']);
+$router->add('deleteComment'   , ['controller' => 'Post', 'action' => 'deleteComment']);
+$router->add('updateComment'   , ['controller' => 'Post', 'action' => 'updateComment']);
+$router->add('getPortfolioList', ['controller' => 'Post', 'action' => 'getPortfolioList']);
+$router->add('deletePost'      , ['controller' => 'Post', 'action' => 'deletePost']);
+
+//프로필
+$router->add('profile'                , ['controller' => 'Profile', 'action' => 'profile']);
+$router->add('updateDescription'      , ['controller' => 'Profile', 'action' => 'updateDescription']);
+
+//태그
+$router->add('tag'                     , ['controller' => 'Tag', 'action' => 'tag']);
+$router->add('tag/search/{tag:.*}'     , ['controller' => 'Tag', 'action' => 'postListByTag']);
+$router->add('tag/getPostList'         , ['controller' => 'Tag', 'action' => 'getPostList']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
+
 ?>
 

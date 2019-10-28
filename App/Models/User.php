@@ -2,6 +2,24 @@
     namespace App\Models;
     class User extends \Core\Model{
 
+        function updateUserDescription($form){
+            $this->sql = "
+                UPDATE
+                    USER
+                SET
+                    USER_DESCRIPTION = :user_description
+                WHERE
+                    USER_SEQ = :user_seq
+            ";
+
+            $this->column = [
+              ':user_description'=>$form['user_description']
+                ,':user_seq'=>$form['user_seq']
+            ];
+
+            $this->query();
+        }
+
         /**
          * 아이디 중복 확인
          * @param $id
@@ -52,12 +70,34 @@
                         USER_ID
                         ,USER_NAME
                         ,USER_EMAIL
+                        ,USER_SEQ
                  FROM
                         USER
                  WHERE
-                        USER_ID ='{$form['user_id']}'
-                        AND USER_PW = PASSWORD('{$form['user_pw']}')
+                        USER_ID =:user_id
+                        AND USER_PW = PASSWORD(:user_pw)
                         AND USER_DELETE = FALSE";
+            $this->column = [
+              ':user_id'=>$form['user_id']
+              ,':user_pw'=>$form['user_pw']
+            ];
+            return $this->fetch();
+        }
+
+        function selectProfileUser(){
+            $this->sql =
+                "SELECT
+                        USER_ID
+                        ,USER_NAME
+                        ,USER_EMAIL
+                        ,USER_SEQ
+                        ,USER_DESCRIPTION
+                        ,USER_THUMBNAIL
+                 FROM
+                        USER
+                 WHERE
+                        USER_ID = 'syh622'
+                        ";
             return $this->fetch();
         }
     }

@@ -17,7 +17,7 @@
                         <input type="button" value="로그인" onclick="login();">
                         <div class="divider-wrapper">
                             <a class="siginin" href="javascript:void(0);" onclick="location.href='/policy'">회원 가입</a> /
-                            <a class="explore" href="javascript:void(0);" onclick="location.href='/recent'">로그인 하지 않고 둘러보기</a>
+                            <a class="explore" href="javascript:void(0);" onclick="location.href='/portfolio'">로그인 하지 않고 둘러보기</a>
                         </div>
                     </div>
                 </form>
@@ -47,7 +47,7 @@
             ,data : $("#login_frm").serialize()
             ,success : (data)=>{
                 if(data.result){
-                    location.href = '/recent';
+                    location.href = '/portfolio';
                 }else{
                     openAlert("회원 정보 없음",data.msg);
                 }

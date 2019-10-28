@@ -5,6 +5,7 @@ use App\Models\User;
 use Core\Controller;
 use Core\View;
 use mysql_xdevapi\Exception;
+use function Sodium\add;
 
 class Main extends Controller {
 
@@ -15,6 +16,29 @@ class Main extends Controller {
     function basicAction(){
         unset($_SESSION['USER']); //회원 로그아웃 처리
         View::renderTemplate("main/main.html");
+    }
+
+    /**
+     * url : /search
+     * 설명 : 검색 화면
+     */
+    function searchAction(){
+//        $result = $this->getPage('https://opensource.com');
+//        echo $result;
+        $query = $_POST['query'];
+        $result = [];
+
+        if(isset($query)){
+            $post_model = new \App\Models\Post();
+            $result['query'] = $query;
+            $escape_query = str_replace( '_', '\_',str_replace('%','\%',$query));
+
+            $result['post_list'] = $post_model->selectSearchPostList($escape_query, 0);
+            $result['post_count'] = $post_model->selectSearchPostCount($escape_query);
+
+        }
+
+        View::renderTemplate("main/search.html",$result);
     }
 
     /**
@@ -31,6 +55,30 @@ class Main extends Controller {
      */
     function authAction(){
         View::renderTemplate("main/auth.html");
+    }
+
+    /**
+     * url : /postBySearchText
+     * 설명 : 문자열로 포스트 검색
+     */
+    function postBySearchTextAction(){
+        try{
+            $method = $_SERVER['REQUEST_METHOD'];
+            if($method == "POST"){
+                $post_model = new \App\Models\Post();
+                $text = $_POST['input_text'];
+                $page_num = $_POST['page_num'];
+                $text = str_replace( '_', '\_',str_replace('%','\%',$text));
+                $result['result'] = true;
+                $result['post_list'] = $post_model->selectSearchPostList($text, $page_num);
+                $result['post_count'] = $post_model->selectSearchPostCount($text);
+            }
+        }catch(Exception $e){
+            $result['result'] = false;
+            $result['msg'] = "로그인 처리중 오류가 발생했습니다.";
+        }finally{
+            echo json_encode($result, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        }
     }
 
     /**
@@ -192,6 +240,50 @@ class Main extends Controller {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+
+//    // 페이지 크롤링 함수 (페이지주소, post값, 리퍼러, 헤더포함? (포함시 y), 쿠기파일 생성경로)
+    function getPage($pageURL, $post=array(), $referer="", $header="", $cookieURL=""){
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $pageURL);
+
+        if ($referer != "") {
+            $referer = getSiteHost($referer);
+            curl_setopt($ch, CURLOPT_REFERER, $referer . "/");
+        }
+
+        if ($header == "y") {
+            curl_setopt($ch, CURLOPT_HEADER, true);
+        }
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        if (count($post) > 0) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        }
+
+        if ($cookieURL != "") {
+            // 쿠키가 필요하다면, 쿠키 생성 폴더 검사 및 없을시 생성 과정도 포함하는게 좋을 듯.
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieURL);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieURL);
+        }
+
+        $result = curl_exec ($ch);
+        curl_close($ch);
+
+        return $result;
+    }
+
+// 정확한 호스트를 얻기위해 편의상 쓰는 함수
+    function getSiteHost($pageURL) {
+        $siteParts = parse_url($pageURL);
+        return $siteParts['scheme'].'://'.$siteParts['host'];
     }
 
 }
