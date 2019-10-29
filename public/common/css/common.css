@@ -743,7 +743,8 @@ input {
 .post-card{
     margin: .875rem;
     /*width: calc((100% - 8.75rem) / 5);*/
-    width:320px;
+    /*width:320px;*/
+    width: calc(25% - 1.75rem);
     position: relative;
     background: #fff;
     margin-top: 1.5rem;

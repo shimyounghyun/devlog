@@ -52,7 +52,14 @@ $router->add('tag'                     , ['controller' => 'Tag', 'action' => 'ta
 $router->add('tag/search/{tag:.*}'     , ['controller' => 'Tag', 'action' => 'postListByTag']);
 $router->add('tag/getPostList'         , ['controller' => 'Tag', 'action' => 'getPostList']);
 
+//크롤링
+$router->add('crawl'         , ['controller' => 'Curl', 'action' => 'crawlNewsHTML']);
+
+//뉴스
+$router->add('news'         , ['controller' => 'News', 'action' => 'news']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);
+
 
 ?>
 
