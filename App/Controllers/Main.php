@@ -23,8 +23,6 @@ class Main extends Controller {
      * 설명 : 검색 화면
      */
     function searchAction(){
-//        $result = $this->getPage('https://opensource.com');
-//        echo $result;
         $query = $_POST['query'];
         $result = [];
 
@@ -240,50 +238,6 @@ class Main extends Controller {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
-    }
-
-
-//    // 페이지 크롤링 함수 (페이지주소, post값, 리퍼러, 헤더포함? (포함시 y), 쿠기파일 생성경로)
-    function getPage($pageURL, $post=array(), $referer="", $header="", $cookieURL=""){
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $pageURL);
-
-        if ($referer != "") {
-            $referer = getSiteHost($referer);
-            curl_setopt($ch, CURLOPT_REFERER, $referer . "/");
-        }
-
-        if ($header == "y") {
-            curl_setopt($ch, CURLOPT_HEADER, true);
-        }
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        if (count($post) > 0) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        }
-
-        if ($cookieURL != "") {
-            // 쿠키가 필요하다면, 쿠키 생성 폴더 검사 및 없을시 생성 과정도 포함하는게 좋을 듯.
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieURL);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieURL);
-        }
-
-        $result = curl_exec ($ch);
-        curl_close($ch);
-
-        return $result;
-    }
-
-// 정확한 호스트를 얻기위해 편의상 쓰는 함수
-    function getSiteHost($pageURL) {
-        $siteParts = parse_url($pageURL);
-        return $siteParts['scheme'].'://'.$siteParts['host'];
     }
 
 }

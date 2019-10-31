@@ -1,0 +1,105 @@
+{{ include('header.html') }}
+
+<div style="margin-left: 18rem">
+    {{ include('side.html') }}
+    {{ include('top.html') }}
+    <div class="recent-section">
+        <div class="tag-info">
+            <a class="backwards-btn">해외 뉴스</a>
+            <hr>
+        </div>
+        <div class="post-list">
+            {% for news in news_list %}
+            <div class="post-card">
+                <a href="{{news.NEWS_LINK}}" target="_blank" class="thumbnail-wrapper">
+                    <img src="{{news.NEWS_THUMBNAIL}}">
+                    <div class="white-mask"></div>
+                </a>
+                <div class="card-content">
+                    <div class="content-head">
+                        <div class="between">
+                            <a class="username" href="#">{{news.NEWS_WRITER}}</a>
+                        </div>
+                        <h3><a href="{{news.NEWS_LINK}}" target="_blank">{{news.TRANS_TITLE}}</a></h3>
+                        <div class="subinfo">
+                            <span>{{news.NEWS_DATE}}</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        {{news.ORIGIN_SUB_TITLE}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    // 페이징
+    $(document).ready(function() {
+        let win = $(window);
+        let page_num = 0;
+        let total_count = '{{news_count}}';
+
+        // Each time the user scrolls
+        win.scroll(function() {
+            let scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+            let scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
+            let contentH = $('.post-list').height(); //문서 전체 내용을 갖는 div의 높이
+            if(scrollT + scrollH +1 >= contentH && page_num * 12 < total_count) { // 스크롤바가 아래 쪽에 위치할 때
+                page_num ++;
+                $.ajax({
+                    url : '/news/getNewsList'
+                    ,data : {page_num : page_num}
+                    ,dataType : 'json'
+                    ,type : 'POST'
+                    ,success : (data)=>{
+                        if(data.result){
+                            makeNewsList(data.data);
+                        }else if(data.msg){
+                            openAlert('오류',data.msg);
+                        }
+                    }
+                    , error : (xhr,stat, err) =>{
+                        openAlert('오류 발생','목록을 가져오는 중 오류가 발생했습니다.');
+                        console.log(err);
+                    }
+                })
+            }
+        });
+    });
+
+
+    function makeNewsList(news_list){
+        let news_html = ``;
+        const news = news =>{
+            let template = `
+                <div class="post-card">
+                <a href="${news.NEWS_LINK}" target="_blank" class="thumbnail-wrapper">
+                    <img src="${news.NEWS_THUMBNAIL}">
+                    <div class="white-mask"></div>
+                </a>
+                <div class="card-content">
+                    <div class="content-head">
+                        <div class="between">
+                            <a class="username" href="#">${news.NEWS_WRITER}</a>
+                        </div>
+                        <h3><a href="${news.NEWS_LINK}" target="_blank">${news.TRANS_TITLE}</a></h3>
+                        <div class="subinfo">
+                            <span>${news.NEWS_DATE}</span>
+                        </div>
+                    </div>
+                    <div class="description">
+                        ${news.ORIGIN_SUB_TITLE}
+                    </div>
+                </div>
+            </div>
+            `;
+            news_html += template;
+        }
+
+        R.forEach(news, news_list);
+        $(".post-list").append(news_html);
+    }
+</script>
+{{ include('footer.html') }}
