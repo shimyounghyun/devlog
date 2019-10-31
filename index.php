@@ -56,7 +56,8 @@ $router->add('tag/getPostList'         , ['controller' => 'Tag', 'action' => 'ge
 $router->add('crawl'         , ['controller' => 'Curl', 'action' => 'crawlNewsHTML']);
 
 //뉴스
-$router->add('news'         , ['controller' => 'News', 'action' => 'news']);
+$router->add('news'             , ['controller' => 'News', 'action' => 'news']);
+$router->add('news/getNewsList' , ['controller' => 'News', 'action' => 'getNewsList']);
 
 $router->dispatch($_SERVER['QUERY_STRING']);
 

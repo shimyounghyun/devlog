@@ -45,8 +45,7 @@ class News extends Controller{
                     return;
                 }
 
-                $result['news_list'] = $news_model->selectNewsList($page_num);
-                $result['news_count'] = $total_count;
+                $result['data'] = $news_model->selectNewsList($page_num);
                 $result['result'] = true;
             }
         }catch (Exception $e){
